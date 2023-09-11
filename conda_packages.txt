@@ -1,0 +1,16 @@
+python>=3.10.4
+numpy>=1.22
+pandas>=1.4.2
+click>=8.1
+pytest>=7.1.0
+
+pytorch
+torchvision
+torchaudio
+torchmetrics
+
+cpuonly
+transformers
+
+black
+isort
