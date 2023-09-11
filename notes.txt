@@ -1,0 +1,8 @@
+
+
+
+DistilBERT, TinyBERT, MobileBERT, MiniLM
+DistilGPT, DistilGPT-2
+T5 Small, BERT Base, and other "small" or "base" models
+ALBERT
+

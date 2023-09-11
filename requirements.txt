@@ -1,0 +1,2 @@
+click~=8.1.7
+transformers~=4.33.1
