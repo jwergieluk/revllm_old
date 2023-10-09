@@ -276,4 +276,3 @@ dependencies:
       - websocket-client==1.6.3
       - xxhash==3.3.0
       - yarl==1.9.2
-prefix: /home/george/anaconda3/envs/ws
