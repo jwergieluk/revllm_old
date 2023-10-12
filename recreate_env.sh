@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+# set -e
 
 conda_add_channel() {
   channel_name="$1"
