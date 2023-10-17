@@ -1,5 +1,5 @@
 click~=8.1.7
-transformers~=4.33.1
+# transformers~=4.33.1
 
 python==3.11.5
 ipykernel==6.25.2
