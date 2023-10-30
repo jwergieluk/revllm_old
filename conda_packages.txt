@@ -1,16 +1,13 @@
-python>=3.10.4
-numpy>=1.22
-pandas>=1.4.2
+python>=3.11
 click>=8.1
-pytest>=7.1.0
 
-pytorch
-torchvision
-torchaudio
-torchmetrics
+pytorch>=2.0
+transformers>=4.33
 
-cpuonly
-transformers
-
-black
-isort
+jupyter>=1.0
+notebook>=7.0
+jupyterlab>=4.0
+ipywidgets>=8.1.1
+captum>=0.6.0
+seaborn>=0.12
+matplotlib>=3.4
