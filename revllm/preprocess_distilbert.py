@@ -114,6 +114,7 @@ class PreprocessSentiment():
     token_indices = self.input_ids[0].detach().tolist()
     self.all_tokens = self.tokenizer.convert_ids_to_tokens(token_indices)
 
+
 class PreprocessMaskedLM():
   
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -139,23 +140,34 @@ class PreprocessMaskedLM():
       while True:
 
         masked_substring = input('Choose a token to mask: ')
+        
         if masked_substring in unmasked_context:
-            context = unmasked_context.replace(masked_substring, '[MASK]')
-            print('         Context:', context)
-            print('Unmasked context:', unmasked_context)
+
+            self.context = unmasked_context.replace(masked_substring, '[MASK]')
+            # self.unmasked_context = unmasked_context
+
+            context_list = self.tokenizer.tokenize(self.context)
+            self.mask_index = context_list.index('[MASK]')
+            
+            ground_truth_list = self.tokenizer.tokenize(masked_substring)
+            if len(ground_truth_list) > 1:
+              print(f"{masked_substring} is not in the model's vocabulary and will be tokenized.  We take the first token as the ground truth.")
+
+            self.ground_truth = ground_truth_list[0]
+            self.ground_truth_index = self.tokenizer.encode(self.ground_truth, add_special_tokens=False)[0]
+            
+            print('Unmasked context: ', unmasked_context)
             break
         else:
-            print('This substring is not in the context. Please choose another.')   
+            print('This choice is not in the context. Please choose another.')   
 
-      self.context = context
-      self.unmasked_context = unmasked_context
-      self.ground_truth = masked_substring
+
+
 
       #tokenize inputs (question + context, with special tokens)
       context_ids = self.tokenizer.encode(self.context, add_special_tokens=False)
       input_ids_raw_list = [self.cls_token_id] + context_ids + [self.sep_token_id]
       self.mask_index = input_ids_raw_list.index(self.tokenizer.mask_token_id)
-      self.ground_truth_index = self.mask_index #Name both for consistency in analyze_distilbert
 
       #tokenize baseline (independent of input - necessary for integrated gradients)
       baseline_input_ids_raw_list = [self.cls_token_id] + [self.baseline_token_id] * len(context_ids) + [self.sep_token_id]

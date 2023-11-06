@@ -278,3 +278,101 @@ class VisualizeSentiment():
         plt.xlabel('Layers')
         plt.ylabel('Total Attribution')
         plt.show()
+
+#todo: start here
+class VisualizeMaskedLM():
+    
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    
+    def __init__(self, model_path:str, preprocessor):
+
+        self.model = DistilBertForSequenceClassification.from_pretrained(model_path)
+        self.model.to(self.device)
+        self.model.eval()
+        self.model.zero_grad()
+        self.preprocessor = preprocessor
+        self.layer_attrs = []
+        self.layer_attributions = None
+
+    def _predict_for_visualization(self, input_embs:torch.Tensor, attention_mask:torch.Tensor) -> torch.Tensor:
+        pred = self.model(inputs_embeds=input_embs, attention_mask=attention_mask)
+        return pred.logits
+
+    def _prep_for_visualization(self, token_to_explain_index=None):
+        self.layer_attrs = []
+        self.layer_attributions = None
+
+        input_embeddings = self.model.distilbert.embeddings(self.preprocessor.input_ids)
+        baseline_input_embeddings = self.model.distilbert.embeddings(self.preprocessor.baseline_input_ids)
+        
+        for i in range(self.model.config.num_hidden_layers):
+            lc = LayerConductance(self._predict_for_visualization, self.model.distilbert.transformer.layer[i])
+            self.layer_attributions = lc.attribute(inputs=input_embeddings, 
+                                                baselines=baseline_input_embeddings, 
+                                                additional_forward_args=(self.preprocessor.attention_mask,),
+                                                target=(self.preprocessor.mask_index, self.preprocessor.ground_truth_index)
+                                                )
+            if token_to_explain_index is not None:
+                # Use only the attributions for the specified token index
+                attributions_for_token = self.layer_attributions[0, token_to_explain_index].cpu().detach().tolist()
+                self.layer_attrs.append(attributions_for_token)
+            else:
+                self.layer_attrs.append(summarize_attributions(self.layer_attributions).cpu().detach().tolist())
+
+                    #todo: separate this out so I don't need to run _prep_for_visualization multiple times below
+            if token_to_explain_index is not None:
+                self.layer_attrs_dist = [np.array(attrs) for attrs in self.layer_attrs]
+
+    def lc_visualize_layers(self):
+        self._prep_for_visualization()
+        fig, ax = plt.subplots(figsize=(15,5))
+        xticklabels=self.preprocessor.all_tokens
+        yticklabels=list(range(1,len(self.layer_attrs)+1))
+        ax = sns.heatmap(np.array(self.layer_attrs), xticklabels=xticklabels, yticklabels=yticklabels, linewidth=0.2)
+        plt.xlabel('Tokens')
+        plt.ylabel('Layers')
+        plt.title('Token attribution scores for sentiment prediction')
+        plt.show()
+
+    def lc_visualize_token(self, token_to_explain: str): 
+
+        token_to_explain_index = select_index(token = token_to_explain, preprocessor = self.preprocessor.all_tokens)
+
+        # Update this function for sentiment analysis.
+        self._prep_for_visualization(token_to_explain_index=token_to_explain_index) 
+
+        fig, ax = plt.subplots(figsize=(20,10))
+        ax = sns.boxplot(data=self.layer_attrs_dist)  # Already renamed this in the previous step.
+        plt.title(f"Attribution scores of {token_to_explain} for sentiment prediction")
+        plt.xlabel('Layers')
+        plt.ylabel('Attribution')
+        plt.show()
+
+        # Compute PDF for the attributions.
+        layer_attrs_pdf = map(lambda single_attr: pdf_attr(single_attr), self.layer_attrs_dist)
+        layer_attrs_pdf = np.array(list(layer_attrs_pdf))
+
+        attr_sum = np.array(self.layer_attrs_dist).sum(-1)
+
+        layer_attrs_pdf_norm = np.linalg.norm(layer_attrs_pdf, axis=-1, ord=1)
+        layer_attrs_pdf = np.transpose(layer_attrs_pdf)
+        layer_attrs_pdf = np.divide(layer_attrs_pdf, layer_attrs_pdf_norm, where=layer_attrs_pdf_norm!=0)
+
+        fig, ax = plt.subplots(figsize=(20,10))
+        plt.plot(layer_attrs_pdf)
+        plt.xlabel('Bins')
+        plt.ylabel('Density')
+        plt.legend(['Layer ' + str(i) for i in range(1, len(self.layer_attrs)+1)])  # Updated reference from layer_attrs_start
+        plt.show()
+
+        fig, ax = plt.subplots(figsize=(20,10))
+
+        layer_attrs_pdf[layer_attrs_pdf == 0] = 1
+        layer_attrs_pdf_log = np.log2(layer_attrs_pdf)
+
+        entropies = -(layer_attrs_pdf * layer_attrs_pdf_log).sum(0)
+
+        plt.scatter(np.arange(len(self.layer_attrs)), attr_sum, s=entropies * 100)  # Updated reference from layer_attrs_start
+        plt.xlabel('Layers')
+        plt.ylabel('Total Attribution')
+        plt.show()

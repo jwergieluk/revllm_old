@@ -174,11 +174,6 @@ class AnalyzeSentiment():
 
             self.logits = output.logits
 
-            #todo: make sure you don't need these
-            probs = torch.nn.functional.softmax(self.logits, dim=-1)
-            predicted_classes = torch.argmax(probs, dim=-1).tolist()
-            predictions = [self.preprocessor.labels[p] for p in predicted_classes]
-
             return self.logits
     
     def lig_color_map(self):
@@ -257,7 +252,7 @@ class AnalyzeMaskedLM():
             mask_prediction = self.preprocessor.tokenizer.convert_ids_to_tokens(mask_prediction_id)
 
             print('         Context: ', self.preprocessor.context)
-            print('   Actual answer: ', self.preprocessor.ground_truth)
+            print('    Ground truth: ', self.preprocessor.ground_truth)
             print('Predicted answer: ', mask_prediction)
 
         #for use in lig.attribute below, which need these args to be passed in
@@ -265,9 +260,6 @@ class AnalyzeMaskedLM():
             output = self.model(input_ids, attention_mask=attention_mask)
 
             self.logits = output.logits
-            # probs = torch.nn.functional.softmax(self.logits, dim=-1)
-            # predicted_classes = torch.argmax(probs, dim=-1).tolist()
-            # predictions = [self.preprocessor.labels[p] for p in predicted_classes]
 
             return self.logits
         
@@ -276,12 +268,12 @@ class AnalyzeMaskedLM():
         # Initialize LayerIntegratedGradients
         lig = LayerIntegratedGradients(self.predict, self.model.distilbert.embeddings)
 
-        # Get attributions for the sentiment prediction
+        # Get attributions for the prediction
         attributions, delta = lig.attribute(inputs=self.preprocessor.input_ids,
                                             baselines=self.preprocessor.baseline_input_ids,
                                             additional_forward_args=(self.preprocessor.attention_mask),
                                             return_convergence_delta=True,
-                                            target=self.preprocessor.ground_truth_index)
+                                            target=(self.preprocessor.mask_index, self.preprocessor.ground_truth_index))
         
         attributions_sum = summarize_attributions(attributions)
         
@@ -304,3 +296,23 @@ class AnalyzeMaskedLM():
 
         print('\033[1m', 'Visualizations For Sentiment Prediction', '\033[0m')
         viz.visualize_text([sentiment_vis])
+
+    def lig_top_k_tokens(self, k:int=5) -> None:
+        
+        lig = LayerIntegratedGradients(self.predict, [self.model.distilbert.embeddings.word_embeddings])
+
+        attributions = lig.attribute(inputs=self.preprocessor.input_ids,
+                                    baselines=self.preprocessor.baseline_input_ids,
+                                    additional_forward_args=(self.preprocessor.attention_mask),
+                                    target=(self.preprocessor.mask_index, self.preprocessor.ground_truth_index))
+
+        attributions_word = summarize_attributions(attributions[0])
+        top_words, top_words_val, top_word_ind = get_top_k_attributed_tokens(attributions_word, k=k, preprocessor=self.preprocessor)
+
+        df = pd.DataFrame({'Word(Index), Attribution': ["{} ({}), {}".format(word, pos, round(val.item(),2)) for word, pos, val in zip(top_words, top_word_ind, top_words_val)]})
+        df.style.set_properties(cell_ids=False)
+
+        full_token_list = ['{}({})'.format(token, str(i)) for i, token in enumerate(self.preprocessor.all_tokens)]
+
+        print(f"Full token list: {full_token_list}")
+        print(f"Top {k} attributed embeddings for sentiment prediction: {df}")
