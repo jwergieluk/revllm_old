@@ -7,9 +7,7 @@ import torch
 
 from typing import Optional, Tuple, List 
 
-from transformers import (DistilBertTokenizer, 
-                          DistilBertForQuestionAnswering
-                          )
+from transformers import DistilBertTokenizer
 
 from captum.attr import visualization as viz
 # from captum.attr import LayerIntegratedGradients, LayerConductance
@@ -135,11 +133,11 @@ class PreprocessMaskedLM():
       self.all_tokens = None
       self.mask_index = None
   
-    def __call__(self, unmasked_context:str) -> Tuple[torch.Tensor, torch.Tensor, int]:
+    def __call__(self, unmasked_context:str, masked_substring:str) -> Tuple[torch.Tensor, torch.Tensor, int]:
       
       while True:
 
-        masked_substring = input('Choose a token to mask: ')
+        # masked_substring = input('Choose a token to mask: ')
         
         if masked_substring in unmasked_context:
 
