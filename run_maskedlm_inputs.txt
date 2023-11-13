@@ -1,0 +1,12 @@
+[
+    "The capital of France, Paris, contains the Eiffel Tower.",
+    "Mount Everest is known to be the highest mountain peak in the world.",
+    "The Great Wall of China is visible from space and spans across several provinces.",
+    "Leonardo da Vinci is renowned for his painting, the Mona Lisa, which hangs in the Louvre.",
+    "The theory of relativity was proposed by Albert Einstein and has shaped modern physics.",
+    "The programming language Python is named after Monty Python, not the reptile.",
+    "Shakespeare's play 'Hamlet' is a classic tragedy centered around the themes of revenge and madness.",
+    "The human genome contains billions of nucleotides that are sequenced to understand genetic makeup.",
+    "The concept of zero as a number was a significant development in mathematics and came from ancient India.",
+    "Cognitive dissonance is a psychological phenomenon where contradictory beliefs cause mental stress."
+]

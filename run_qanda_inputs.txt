@@ -1,0 +1,53 @@
+[
+    {
+        "question": "What is important to us?",
+        "context": "It is important to us to include, empower and support humans of all kinds.",
+        "ground_truth": "to include, empower and support humans of all kinds"
+
+    },
+    {
+        "question": "What color is the sky on a clear day?",
+        "context": "During a clear day, the sky often appears to be blue to the human eye.",
+        "ground_truth": "Blue"
+    },
+    {
+        "question": "What is the boiling point of water at sea level?",
+        "context": "Water boils at 100 degrees Celsius or 212 degrees Fahrenheit at sea level.",
+        "ground_truth": "100 degrees Celsius"
+    },
+    {
+        "question": "Who wrote the play 'Romeo and Juliet'?",
+        "context": "'Romeo and Juliet' is a tragedy written by William Shakespeare early in his career about two young star-crossed lovers.",
+        "ground_truth": "William Shakespeare"
+    },
+    {
+        "question": "In what type of economic system does the government play the smallest role?",
+        "context": "In a free market economic system, the government's role is typically minimal, with the idea that supply and demand will regulate the economy.",
+        "ground_truth": "Free market economic system"
+    },
+    {
+        "question": "What is the primary process by which plants make food?",
+        "context": "Plants convert sunlight into energy through a process known as photosynthesis, using chlorophyll in their leaves to produce food.",
+        "ground_truth": "Photosynthesis"
+    },
+    {
+        "question": "What causes the seasons on Earth?",
+        "context": "The tilt of the Earth's rotational axis away or toward the sun causes seasons. During different times of the year, the northern or southern hemisphere tilts towards the Sun, resulting in the change of seasons.",
+        "ground_truth": "The tilt of the Earth's axis"
+    },
+    {
+        "question": "How does a black hole form?",
+        "context": "A black hole can form when a massive star collapses under its own gravity during a supernova explosion, compacting its mass into a very small space and creating a point of infinite density known as a singularity.",
+        "ground_truth": "Collapse of a massive star under its own gravity"
+    },
+    {
+        "question": "What was the significance of the Rosetta Stone in understanding ancient Egyptian hieroglyphs?",
+        "context": "The Rosetta Stone was instrumental in deciphering ancient Egyptian hieroglyphs, as it contained the same text in Greek, Demotic, and hieroglyphic script, allowing scholars to translate the hieroglyphs using the known Greek language.",
+        "ground_truth": "It helped decipher Egyptian hieroglyphs"
+    },
+    {
+        "question": "What is the concept of 'Schrodinger's cat' in quantum mechanics?",
+        "context": "Schrodinger's cat is a thought experiment devised by Erwin Schrodinger that presents a cat that may be simultaneously both alive and dead, depending on an earlier random event, as a way to illustrate the complexity of quantum superposition.",
+        "ground_truth": "A thought experiment illustrating quantum superposition"
+    }
+]

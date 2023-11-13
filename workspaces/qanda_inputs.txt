@@ -1,0 +1,12 @@
+[
+    {
+        "question": "What is the capital of France?",
+        "context": "France is a country in Europe known for its history and cultural contributions.",
+        "ground_truth": "The capital of France is Paris."
+    },
+    {
+        "question": "What is the tallest mountain in the world?",
+        "context": "Mount Everest is part of the Himalaya range in Asia and is known to be the highest point above sea level.",
+        "ground_truth": "The tallest mountain in the world is Mount Everest."
+    }
+]

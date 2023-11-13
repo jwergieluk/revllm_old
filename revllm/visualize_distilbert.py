@@ -19,6 +19,8 @@ from transformers import (
 
 from captum.attr import LayerConductance
 
+from bertviz import model_view, head_view
+
 def summarize_attributions(attributions:torch.Tensor) -> torch.Tensor:
     '''
     Summarize attributions across the sequence length dimension.
@@ -76,6 +78,7 @@ class VisualizeQAndA():
 
         self.model = DistilBertForQuestionAnswering.from_pretrained(model_path)
         self.model.to(self.device)
+        self.model_name = model_path
         self.model.eval()
         self.model.zero_grad()
         self.preprocessor = preprocessor
@@ -234,6 +237,13 @@ class VisualizeQAndA():
         plt.ylabel('Total Attribution')
         plt.show()
 
+    def BertViz(self):
+
+        visualizer = BertViz(model = self.model_name, preprocessor = self.preprocessor)
+        visualizer.model_view_visualize()
+        visualizer.head_view_visualize()
+        visualizer.get_attention_weights()
+
 class VisualizeSentiment():
     
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -241,6 +251,7 @@ class VisualizeSentiment():
     def __init__(self, model_path:str, preprocessor):
 
         self.model = DistilBertForSequenceClassification.from_pretrained(model_path)
+        self.model_name = model_path
         self.model.to(self.device)
         self.model.eval()
         self.model.zero_grad()
@@ -359,6 +370,14 @@ class VisualizeSentiment():
         plt.xlabel('Layers')
         plt.ylabel('Total Attribution')
         plt.show()
+    
+        
+    def BertViz(self):
+
+        visualizer = BertViz(model = self.model_name, preprocessor = self.preprocessor)
+        visualizer.model_view_visualize()
+        visualizer.head_view_visualize()
+        visualizer.get_attention_weights()
 
 #todo: does not currently work. 
 class VisualizeMaskedLM():
@@ -369,11 +388,19 @@ class VisualizeMaskedLM():
 
         self.model = DistilBertForSequenceClassification.from_pretrained(model_path)
         self.model.to(self.device)
+        self.model_name = model_path
         self.model.eval()
         self.model.zero_grad()
         self.preprocessor = preprocessor
         self.layer_attrs = []
         self.layer_attributions = None
+
+    def BertViz(self):
+
+        visualizer = BertViz(model = self.model_name, preprocessor = self.preprocessor)
+        visualizer.model_view_visualize()
+        visualizer.head_view_visualize()
+        visualizer.get_attention_weights()
 
     def _predict_for_visualization(self, input_embs:torch.Tensor, attention_mask:torch.Tensor) -> torch.Tensor:
         pred = self.model(inputs_embeds=input_embs, attention_mask=attention_mask)
@@ -457,3 +484,36 @@ class VisualizeMaskedLM():
         plt.xlabel('Layers')
         plt.ylabel('Total Attribution')
         plt.show()
+
+class BertViz:
+    def __init__(self, model: str, preprocessor):
+        self.preprocessor = preprocessor
+        self.attention_mask = self.preprocessor.attention_mask
+        self.tokenizer = self.preprocessor.tokenizer
+        self.input_ids = self.preprocessor.input_ids
+        self.model = DistilBertForSequenceClassification.from_pretrained(model,output_attentions=True)
+        self.attention_weights = None
+        self.tokens = None
+             
+    def _run_model(self):
+
+        outputs = self.model(self.input_ids, attention_mask=self.attention_mask)
+        attention = outputs.attentions
+        
+        self.attention_weights = attention
+        self.tokens = self.tokenizer.convert_ids_to_tokens(self.input_ids[0].tolist())
+ 
+    def model_view_visualize(self):
+        if self.attention_weights is None or self.tokens is None:
+            self._run_model()
+        model_view(self.attention_weights, self.tokens)
+    
+    def head_view_visualize(self):
+        if self.attention_weights is None or self.tokens is None:
+            self._run_model()
+        head_view(self.attention_weights, self.tokens)
+        
+    def get_attention_weights(self):
+        if self.attention_weights is None:
+            self._run_model()
+        return self.attention_weights

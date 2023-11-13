@@ -149,7 +149,7 @@ class Weights:
             self.run_model(sentence)
         head_view(self.attention_weights, self.tokens)
         
-    since we're only using distilbert
+    # since we're only using distilbert
     def neuron_view_visualize(self, sentence):
         if self.model_type != 'bert':
             print("Neuron view is currently supported only for BERT.")

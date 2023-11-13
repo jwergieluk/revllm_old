@@ -90,8 +90,8 @@ class PreprocessSentiment():
   def __call__(self, context:str,ground_truth:str) -> Tuple[torch.Tensor, torch.Tensor, int]:
     
     self.context = context
-    self.ground_truth = ground_truth
-    self.ground_truth_index = self.labels.index(ground_truth)
+    self.ground_truth = ground_truth.lower()
+    self.ground_truth_index = self.labels.index(ground_truth.lower())
 
     #tokenize inputs (question + context, with special tokens)
     context_ids = self.tokenizer.encode(context, add_special_tokens=False)
@@ -134,32 +134,55 @@ class PreprocessMaskedLM():
       self.mask_index = None
   
     def __call__(self, unmasked_context:str, masked_substring:str) -> Tuple[torch.Tensor, torch.Tensor, int]:
+
+      # while True:
+
+      #   # masked_substring = input('Choose a token to mask: ')
+      #   masked_substring = masked_substring.lower()
+      #   unmasked_context = unmasked_context.lower()
+
+      #   if masked_substring in unmasked_context:
+
+      #       self.context = unmasked_context.replace(masked_substring, '[MASK]')
+      #       # self.unmasked_context = unmasked_context
+
+      #       context_list = self.tokenizer.tokenize(self.context)
+      #       self.mask_index = context_list.index('[MASK]')
+            
+      #       ground_truth_list = self.tokenizer.tokenize(masked_substring)
+      #       if len(ground_truth_list) > 1:
+      #         print(f"{masked_substring} is not in the model's vocabulary and will be tokenized.  We take the first token as the ground truth.")
+
+      #       self.ground_truth = ground_truth_list[0]
+      #       self.ground_truth_index = self.tokenizer.encode(self.ground_truth, add_special_tokens=False)[0]
+            
+      #       print('Unmasked context: ', unmasked_context)
+      #       break
+      #   else:
+      #       print('This choice is not in the context.')
+
+      masked_substring = masked_substring.lower()
+      unmasked_context = unmasked_context.lower()
       
-      while True:
+      if masked_substring in unmasked_context:
 
-        # masked_substring = input('Choose a token to mask: ')
-        
-        if masked_substring in unmasked_context:
+          self.context = unmasked_context.replace(masked_substring, '[MASK]',1) #only replace the first instance for those which occur multiple times
+          # self.unmasked_context = unmasked_context
 
-            self.context = unmasked_context.replace(masked_substring, '[MASK]')
-            # self.unmasked_context = unmasked_context
+          context_list = self.tokenizer.tokenize(self.context)
+          self.mask_index = context_list.index('[MASK]')
+          
+          ground_truth_list = self.tokenizer.tokenize(masked_substring)
+          if len(ground_truth_list) > 1:
+            print(f"{masked_substring} is not in the model's vocabulary and will be tokenized.  We take the first token as the ground truth.")
 
-            context_list = self.tokenizer.tokenize(self.context)
-            self.mask_index = context_list.index('[MASK]')
-            
-            ground_truth_list = self.tokenizer.tokenize(masked_substring)
-            if len(ground_truth_list) > 1:
-              print(f"{masked_substring} is not in the model's vocabulary and will be tokenized.  We take the first token as the ground truth.")
-
-            self.ground_truth = ground_truth_list[0]
-            self.ground_truth_index = self.tokenizer.encode(self.ground_truth, add_special_tokens=False)[0]
-            
-            print('Unmasked context: ', unmasked_context)
-            break
-        else:
-            print('This choice is not in the context. Please choose another.')   
-
-
+          self.ground_truth = ground_truth_list[0]
+          self.ground_truth_index = self.tokenizer.encode(self.ground_truth, add_special_tokens=False)[0]
+          
+          print('Unmasked context: ', unmasked_context)
+          
+      else:
+          print('This choice is not in the context.')
 
 
       #tokenize inputs (question + context, with special tokens)

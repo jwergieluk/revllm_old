@@ -4,7 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
-from IPython.display import display
 
 import torch
 
@@ -229,13 +228,6 @@ class AnalyzeSentiment():
 
         print(f"Full token list: {full_token_list}")
         print(f"Top {k} attributed embeddings for sentiment prediction: {df}")
-    
-    def BertViz(self):
-
-        visualizer = BertViz(self.model, preprocessor = self.preprocessor)
-        visualizer.model_view_visualize()
-        visualizer.head_view_visualize()
-        visualizer.get_attention_weights()
 
 
 class AnalyzeMaskedLM():
@@ -327,49 +319,3 @@ class AnalyzeMaskedLM():
 
         print(f"Full token list: {full_token_list}")
         print(f"Top {k} attributed embeddings for sentiment prediction: {df}")
-
-#--------------------------------------------------------------------------------------------------------------------------------------------------------
-# todo: start here
-class BertViz:
-    def __init__(self, model: str, preprocessor):
-        self.prerprocessor = preprocessor
-        self.model = model
-        self.attention_weights = None
-        self.tokens = None
-
-        # self.tokenizer = DistilBertTokenizer.from_pretrained(model_path)
-
-    # def predict(self, input_ids=None, attention_mask = None, position:int = 0) -> None:
-
-    #     output = self.model(self.preprocessor.input_ids, attention_mask=self.preprocessor.attention_mask)
-
-    #     self.start_scores = output.start_logits
-    #     self.end_scores = output.end_logits
-             
-
-    def run_model(self):
-
-        outputs = self.model(self.preprocessor.input_ids, attention_mask=self.preprocessor.attention_mask)
-
-        attention = outputs.attentions
-        
-        self.attention_weights = attention
-        self.tokens = self.tokenizer.convert_ids_to_tokens(input_ids[0].tolist())
-   
-        
-    def model_view_visualize(self):
-        if self.attention_weights is None or self.tokens is None:
-            self.run_model()
-        model_view(self.attention_weights, self.tokens)
-    
-    def head_view_visualize(self):
-        if self.attention_weights is None or self.tokens is None:
-            self.run_model()
-        head_view(self.attention_weights, self.tokens)
-        
-# if bert later, then include neuron_view_visualize
-
-    def get_attention_weights(self):
-        if self.attention_weights is None:
-            self.run_model()
-        return self.attention_weights

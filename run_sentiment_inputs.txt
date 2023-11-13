@@ -1,0 +1,42 @@
+[
+    {
+        "context": "The movie had breathtaking visuals, but the storyline left a lot to be desired.",
+        "ground_truth": "Negative"
+    },
+    {
+        "context": "I love sunny days so much!",
+        "ground_truth": "Positive"
+    },
+    {
+        "context": "This is absolutely the worst movie I've ever seen.",
+        "ground_truth": "Negative"
+    },
+    {
+        "context": "I'm thrilled with the performance of my new laptop.",
+        "ground_truth": "Positive"
+    },
+    {
+        "context": "The food was cold and my order was late.",
+        "ground_truth": "Negative"
+    },
+    {
+        "context": "The new song from the artist is an instant hit and I can't stop listening.",
+        "ground_truth": "Positive"
+    },
+    {
+        "context": "I'm disappointed with the build quality of the furniture.",
+        "ground_truth": "Negative"
+    },
+    {
+        "context": "Despite the critics, I found the movie to be quite entertaining and fun.",
+        "ground_truth": "Positive"
+    },
+    {
+        "context": "The plot had potential, but the poor character development ruined the experience.",
+        "ground_truth": "Negative"
+    },
+    {
+        "context": "The innovation in this tech product is commendable, but it still feels like a first-gen attempt.",
+        "ground_truth": "Positive"
+    }
+]
