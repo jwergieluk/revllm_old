@@ -21,6 +21,8 @@ from captum.attr import LayerConductance
 
 from bertviz import model_view, head_view
 
+#todo: is summing the most natural attribution summary?
+#todo: is normalization natural?
 def summarize_attributions(attributions:torch.Tensor) -> torch.Tensor:
     '''
     Summarize attributions across the sequence length dimension.
@@ -198,7 +200,7 @@ class VisualizeQAndA():
         plt.title(f"Probability density function of {tokens_list[token_to_explain_index]} for end position")
         plt.xlabel('Bins')
         plt.ylabel('Density')
-        plt.legend(['Layer '+ str(i) for i in range(1,len(self.layer_attrs_start)+1)])
+        plt.legend(['Layer '+ str(i) for i in range(0,len(self.layer_attrs_start))])
         plt.show()
 
     def lc_visualize_token_entropies(self, token_to_explain:Optional[str] = None):
@@ -281,11 +283,10 @@ class VisualizeSentiment():
                 # Use only the attributions for the specified token index
                 attributions_for_token = self.layer_attributions[0, token_to_explain_index].cpu().detach().tolist()
                 self.layer_attrs.append(attributions_for_token)
-                self.layer_attrs_dist = [np.array(attrs) for attrs in self.layer_attrs]
+                self.layer_attrs_dist = [np.array(attrs) for attrs in self.layer_attrs] #todo: this doesn't seem right, it replaces every loop?
 
             else:
                 self.layer_attrs.append(summarize_attributions(self.layer_attributions).cpu().detach().tolist())
-
                     #todo: double check on this, and make updates to above
             # if token_to_explain_index is not None:
             #     self.layer_attrs_dist = [np.array(attrs) for attrs in self.layer_attrs]
@@ -293,8 +294,10 @@ class VisualizeSentiment():
     def lc_visualize_layers(self):
         self._prep_for_visualization()
         fig, ax = plt.subplots(figsize=(15,5))
+
         xticklabels=self.preprocessor.all_tokens
         yticklabels=list(range(1,len(self.layer_attrs)+1))
+        #todo: consider center=0
         ax = sns.heatmap(np.array(self.layer_attrs), xticklabels=xticklabels, yticklabels=yticklabels, linewidth=0.2)
         plt.xlabel('Tokens')
         plt.ylabel('Layers')
@@ -338,7 +341,7 @@ class VisualizeSentiment():
         plt.title(f"Probability density function of {tokens_list[token_to_explain_index]}")
         plt.xlabel('Bins')
         plt.ylabel('Density')
-        plt.legend(['Layer ' + str(i) for i in range(1, len(self.layer_attrs)+1)])  # Updated reference from layer_attrs_start
+        plt.legend(['Layer ' + str(i) for i in range(0, len(self.layer_attrs))])  # Updated reference from layer_attrs_start
         plt.show()
 
     def lc_visualize_token_entropies(self, token_to_explain:Optional[str] = None):
@@ -470,7 +473,7 @@ class VisualizeMaskedLM():
         plt.plot(layer_attrs_pdf)
         plt.xlabel('Bins')
         plt.ylabel('Density')
-        plt.legend(['Layer ' + str(i) for i in range(1, len(self.layer_attrs)+1)])  # Updated reference from layer_attrs_start
+        plt.legend(['Layer ' + str(i) for i in range(0, len(self.layer_attrs))])  # Updated reference from layer_attrs_start
         plt.show()
 
         fig, ax = plt.subplots(figsize=(20,10))

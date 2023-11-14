@@ -35,11 +35,15 @@ analyzer.lig_color_map()
 
 analyzer.lig_top_k_tokens(5)
 
+print('Visualizations')
 visualizer.lc_visualize_layers()
 
 token_to_analyze = 'but' #also interesting> '[CLS]', behave differently from every other one
+
+print(f"Visualizations for the specific token {token_to_analyze}")
 visualizer.lc_visualize_token_boxes(token_to_analyze)
 visualizer.lc_visualize_token_pdfs(token_to_analyze)
 visualizer.lc_visualize_token_entropies(token_to_analyze)
 
+print("BertViz")
 visualizer.BertViz()
