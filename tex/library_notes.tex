@@ -1,0 +1,234 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{indentfirst}
+\usepackage{geometry}
+
+\geometry{left=1in, top=1in, right=1in, bottom=1in}
+
+\begin{document}
+
+\section{Interpretability Methods}
+
+\subsection{Integrated Gradients}
+
+\indent Integrated gradients is a feature attribution (or feature importance) method for neural networks.  For an input $x$ in continuous space, it considers the line segment from $x$ to a predetermined baseline vector $x'$ given by $x' + \alpha \times (x - x')$ for $0 \leq \alpha \leq 1$.  For example, in image processing $x'$ can represent a blank screen.  In our context, $x'$ will represent the padding token $[PAD]$. \\
+
+Let $x = (x_1, \ldots, x_n) \in \mathbb{R}^n$ be an input to a neural network with $n$ features.  If $F$ represents the neural network, integrated gradients is a line integral given by:
+
+\begin{equation}
+\text{IG}_i = (x_i - x_i') \int_{\alpha=0}^{1} \frac{\partial F(x' + \alpha (x - x'))}{\partial x_i} \ d\alpha
+\end{equation}
+
+\noindent We will use the notation:
+
+\begin{equation}
+\text{IG}_i = (x_i - x_i') \int_{\alpha=0}^{1} \ \frac{\partial F}{\partial x_i} \Big|_{x' + \alpha (x - x')} \ d\alpha
+\end{equation}
+
+\subsubsection*{Example}
+
+A helpful intuition of what is being computed is to think of it as a computation of the difference in $F$ if only the feature $x_i$ is varied from the baseline.  IG then exploits the fundamental theorem of calculas to compute this difference.  \\
+
+For a $1$-dimensional example, let $x \in \mathbb{R}$, $F(x) = x^2$, input $x = x_1 =3$ and baseline $x'= x_1'= 0$.  Then,
+    
+\begin{align*}
+    \text{IG}_1 &= (3 - 0) \int_{\alpha=0}^{1} \ \frac{d (x^2)}{d x} \Big|_{0 + \alpha (3 - 0)} \ d\alpha \\
+    &= 3 \int_{\alpha=0}^{1} 2(3\alpha) \ d\alpha \\
+    &= 9
+\end{align*}
+
+\noindent which is the same value as $F(3) - F(0) = 9$.  \\
+
+\subsubsection{Discrete Approximation}
+
+In practice, the computation of IG is as follows.  Given a function $F$ and an input feature $x_i$, Integrated Gradient calculations are approximated by:
+
+\begin{equation}
+\text{IG}_i \approx (x_i - x_i') \times \sum_{k=1}^{m} \ \bigg( \frac{\partial F}{\partial x_i} \Big|_{x' + \frac{k}{m} \times (x - x')} \bigg) \times \frac{1}{m}
+\end{equation}
+
+\noindent where $F$, $x_i$ and $x_i'$ are as above.  The path is discretized into $m$ steps, with default $m = 50$.
+
+
+\subsubsection{Our context}
+
+All the methods with the prefix "lig" in our analyze\_distilbert library use this interpretability technique.
+
+\subsubsection*{The Idea}
+
+Effectively, our inputs $x$ are vectors in $\mathbb{R}^{768}$, which is the embedding dimension for DistilBERT.  Our baseline $x'$ is the embedding vector for the $[PAD]$ token.  This setup can be used for conceptualization. \\
+
+It should be noted that although the distilbert tokenization for $[PAD]$ in $\mathbb{Z}$ is $0$, its embedding vector in $768$-space is learned during model training, and is not equal to the zero vector.
+
+\subsubsection*{The Implementation: Layer Integrated Gradients}
+
+However, this domain is not precisely correct.  Our inputs are actually tokenizations mapped to their positions in $\mathbb{Z}$.  But since this is a discrete space, we cannot take derivatives, and the line segment $x' + \alpha \times (x - x')$ does not exist.  For this reason, we tweak the formula in order to be able to choose a hidden layer as the domain, and individual neuron activations as features.  We then can choose the embedding layer, which follows immediately from tokenization, as our layer.  This tweak is called Layer integrated gradients:
+
+\begin{equation}
+\text{LIG}_{j}^{l} = (h_{j}^{l} - {h_{j}^{l}}') \int_{\alpha=0}^{1} \frac{\partial F}{\partial h_{j}^{l}}  \Big|_{x' + \alpha (x - x')} \ d\alpha
+\end{equation}
+
+
+\noindent where,
+
+\begin{align*}
+x &= \text{actual model input} \\
+x' &= \text{baseline} \\
+h_{j}^{l} &= h_{j}^{l}(x) \ \text{is the activation of x in the jth neuron in a chosen layer} \ l \\
+{h_{j}^{l}}' &= {h_{j}^{l}}(x') \ \text{is the activation of x' in the jth neuron in a chosen layer} \ l \\
+F &= \text{model}
+\end{align*}
+
+\subsubsection*{Comment}
+
+While $\text{LIG}_{j}^{l}$ is the operation we are using with choice of embedding layer, I find it helpful to conceptualize $\text{IG}_i$ with the domain taken to be the embedding layer as described above.  I do so because as of this writing, I do not understand what operation the captum operation is performing to compute $x' + \alpha (x - x')$.  It may be computing it in the embedding space, or it may be an interpolation in $\mathbb{Z}$, or some other strategy of which I am not aware.  Currently this detail is taken as a black box.
+
+\subsection{Layer Conductance}
+
+In order to see the layer by layer effect of a feature $x_i$ as it passes through a neural network, we compute Layer Conductance.  The Layer Conductance of a feature $x_i$ through the $j^{th}$ neuron ${h_{j}^{l}}$ in a layer $l$ is analagous to the flow passing through a node in a network.  The formula is given by:
+
+\begin{align*}
+\text{LC}_{x_i \rightarrow {h_{j}^{l}}} &= \ (x_i - x_i') \int_{\alpha=0}^{1} \frac{\partial F}{\partial {h_{j}^{l}}} \frac{\partial {h_{j}^{l}}}{\partial x_i} \Big|_{x' + \alpha (x - x')} \ d\alpha
+\end{align*}
+
+Recall that derivatives in a network are computed through backpropagation using the chain rule.  In light of this fact, note that the terms populating this integral are equal to the terms of the full $\text{IG}_i$, but restricted to those which pass through the chosen neuron. \\
+
+To compute the full layer conductance for a feature $x_i$ through a layer $l$ with $J$-many neurons, we take the sum:
+
+\begin{align*}
+\text{LC}_{i}^{l} &= \ \sum_{j=1}^{J} \ (x_i - x_i') \int_{\alpha=0}^{1} \frac{\partial F}{\partial {h_{j}^{l}}} \frac{\partial {h_{j}^{l}}}{\partial x_i} \Big|_{x' + \alpha (x - x')} \ d\alpha
+\end{align*}
+
+\subsubsection{Our Context}
+
+The DistilBERT transformer block has $768$ outputs (immediately following the layer norm).  We treat these outputs as neuron activations, and here is where we perform $\text{LC}_{i}^{l}$ for $l = 0, \ldots, 5$ representing the $6$ DistilBERT layers.  Each "neuron" ${h_{j}^{l}}$ represents the string of operations within the transformer block leading up it. Note that this representation implies an added computational complexity in the backward-looking $\frac{\partial {h_{j}^{l}}}{\partial x_i}$ term in the $\text{LC}_{i}^{l}$ formula.  \\
+
+All the methods with the prefix "lc" in our visualize\_distilbert library use layer conductance.
+
+\section{Library Visualizations}
+
+Upon completing the computations $ \text{LC}_{i}^{l}$, for each token we obtain a $768$-vector at each layer $l$, which we will call $\text{LC}^{l}$.
+
+\subsection{lc visualizations}
+
+\subsubsection*{lc\_visualize Method}
+
+The method lc\_visualize computes the vectors $\text{LC}^{l}$ for each token, and normalizes them to $[-1,1]$.  In the display that results, we have a token $\times$ layer heatmap which is populated by these sums. \\
+
+Note: the effect of the normalization before plotting is to amplify the color subtleties of the heatmap.
+
+\subsubsection*{lc\_visualize\_token\_boxes Method}
+
+The method lc\_visualize\_token\_boxes accepts one specific token as an argument.  For each $\text{LC}^{l}$ a boxplot is displayed.
+
+\subsubsection*{lc\_visualize\_token\_pdfs Method}
+
+The method lc\_visualize\_token\_pdfs accepts one specific token as an argument.   For each $\text{LC}^{l}$ a probability density function is computed.  The pdfs are plotted and color-coded with a legend.
+
+\subsubsection*{lc\_visualize\_token\_entropies Method}
+
+The method lc\_visualize\_token\_entropies accepts one specific token as an argument.   For each $\text{LC}^{l}$ a probability density function is computed.  The pdf's entropy is then computed.  These entropies are then plotted.
+
+\subsection{BertViz}
+
+Within the DistilBERT attention mechamism, the query, key, and value matrices are subdivided into $12$ separate attention heads.  Within each head, the attention matrix $A$ is computed (formula below), whose entries represent relationships between the tokens.  Within each layer, BertViz is visual display of each head.  \\
+
+For a given head and layer, the thickness of the line connecting any two tokens indicates the magnitude of the attention weight between them.
+
+\section{DistilBERT}
+
+\subsection{Architecture}
+
+The following is the raw architecture of DistilBERT.  Details of its computation need to be described separately.
+
+\subsubsection{Baseline}
+
+\begin{itemize}
+\item Embedding
+
+\begin{itemize}
+\item Word Embeddings: Embedding(30522, 768, padding\_idx=0)
+\item Position Embeddings: Embedding(512, 768)
+\item Layer Norm: LayerNorm((768,), eps=1e-12, elementwise\_affine=True)
+\item (While training) Dropout: Dropout(p=0.1, inplace=False)
+\end{itemize}
+
+\item Transformer
+\begin{itemize}
+
+\item Transformer blocks (6)
+\begin{itemize}
+
+\item Attention (Multi-headed)
+\begin{itemize}
+\item (While training) Dropout: Dropout(p=0.1, inplace=False)
+\item Query: Linear(in\_features=768, out\_features=768, bias=True)
+\item Key: Linear(in\_features=768, out\_features=768, bias=True)
+\item Value: Linear(in\_features=768, out\_features=768, bias=True)
+\item Out: Linear(in\_features=768, out\_features=768, bias=True)
+\end{itemize}
+\item Layer Norm: LayerNorm((768,), eps=1e-12, elementwise\_affine=True)
+\item Feed forward
+\begin{itemize}
+\item (While training) Dropout: Dropout(p=0.1, inplace=False)
+\item Linear: Linear(in\_features=768, out\_features=3072, bias=True)
+\item Linear: Linear(in\_features=3072, out\_features=768, bias=True)
+\item Activation: GELU, Gaussian Error Linear Unit
+\end{itemize}
+\item Output layer norm: LayerNorm((768,), eps=1e-12, elementwise\_affine=True) \\
+***\textbf{NOTE:} Layer conductance is performed on these 768 outputs.***
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Model-Specific Additional Layers}
+
+After all $6$ transformer blocks have run, fine-tuned models add an additional layer.
+
+\subsubsection*{qanda}
+
+\begin{itemize}
+\item qa\_outputsLinear(in\_features=768, out\_features=768, bias=True)
+\item (While training) Dropout: Dropout(p=0.1, inplace=False)
+\end{itemize}
+
+\subsubsection*{Sequence Classification}
+
+\begin{itemize}
+\item pre\_classifier: Linear(in\_features=768, out\_features=768, bias=True)
+\item classifier: Linear(in\_features=768, out\_features=2, bias=True)
+\item (While training) Dropout: Dropout(p=0.2, inplace=False)
+\end{itemize}
+
+\subsubsection*{Masked Language Modeling}
+
+\begin{itemize}
+\item vocab\_transform: Linear(in\_features=768, out\_features=768, bias=True)
+\item vocab\_layer\_norm: LayerNorm((768,), eps=1e-12, elementwise\_affine=True)
+\item vocab\_projector: Linear(in\_features=768, out\_features=30522, bias=True)
+\item MLM loss function: CrossEntropyLoss()
+\end{itemize}
+
+\subsection{Additional Architectural Details}
+
+Several details to be added
+
+\subsubsection{Attention Mechanism}
+
+\subsubsection*{Attention Weights Matrix}
+
+Within a transformer block, the attention weights matrix refers to $A = \text{softmax}\left(\frac{QK^T}{\sqrt{768}}\right)$, where $Q$ and $K$ are the query and key matrices respectively.  The entry $A_{i,j}$ numerically  represents a sort of 'relationship' or 'attention' that the model pays from token $i$ to token $j$.  \\
+
+Once $A$ is computed, the next step of the attention mechanism is the computation $AV$, where $V$ is the value matrix.
+
+\subsubsection*{Muli-heads}
+
+Comments to be added
+
+
+
+
+ 
+
+\end{document}

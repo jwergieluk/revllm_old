@@ -1,0 +1,39 @@
+#!/bin/bash
+
+set -e; set -u
+LATEX="pdflatex"
+
+function MAKE_TEX {
+    TGT=$1
+    CURR_DIR=`pwd`
+    TMP="/tmp"
+    if [ $TGT.tex -nt $TGT.pdf ]; then
+        $LATEX    -file-line-error -halt-on-error -output-directory $TMP $TGT
+        biber       --output_directory $TMP $TGT
+        cd $TMP
+        makeindex   $TGT 
+        cd $CURR_DIR
+#        pdflatex    -file-line-error -halt-on-error -output-directory $TMP $TGT
+#        biber       --output_directory $TMP $TGT
+        cp $TMP/$TGT.pdf .
+        PAGES=`cat $TMP/$TGT.log | grep "Output written on" | sed -re "s/\(/\ /g" | cut -d" " -f 6`
+        if [ ! "$PAGES" == "" ]; then
+            echo "`date "+%Y%m%d.%H%M%S"` $TGT $PAGES" >> $PAGES_DATA
+        fi
+    fi
+}
+
+function MAKE_TEX_NO_BIBER {
+    TGT=$1
+    TMP="/tmp"
+    if [ $TGT.tex -nt $TGT.pdf ]; then
+        pdflatex    -file-line-error -halt-on-error -output-directory $TMP $TGT
+        cp $TMP/$TGT.pdf .
+    fi
+}
+    
+
+MAKE_TEX_NO_BIBER library_notes
+MAKE_TEX_NO_BIBER integrated_gradients
+
+

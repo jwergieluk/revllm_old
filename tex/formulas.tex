@@ -1,0 +1,180 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{indentfirst}
+\usepackage{geometry}
+
+\geometry{left=1in, top=1in, right=1in, bottom=1in}
+
+\begin{document}
+	
+	\section{Interpretability Methods}
+	
+	\subsection{Integrated Gradients}
+	
+	\begin{equation}
+		\text{IG}_i = (x_i - x_i') \int_{\alpha=0}^{1} \ \frac{\partial F}{\partial x_i} \Big|_{x' + \alpha (x - x')} \ d\alpha
+	\end{equation}
+
+	\noindent Where:
+	
+	\begin{align*}
+		x &= \text{actual model input} \\
+		x' &= \text{baseline} \\
+		i &= \text{some feature index} \\
+		F &= \text{model}
+	\end{align*}
+
+	\noindent Note: the introductory paper uses the notation:
+	
+		\begin{equation}
+		\text{IG}_i = (x_i - x_i') \int_{\alpha=0}^{1} \frac{\partial F(x' + \alpha (x - x'))}{\partial x_i} \ d\alpha
+		\end{equation}
+	
+	\subsubsection{Discrete Approximation}
+	
+	\begin{equation}
+		\text{IG}_i \approx (x_i - x_i') \times \sum_{k=1}^{m} \ \bigg( \frac{\partial F}{\partial x_i} \Big|_{x' + \frac{k}{m} \times (x - x')} \bigg) \times \frac{1}{m}
+	\end{equation}
+	
+	\noindent Default $m = 50$.
+	
+	\subsubsection*{The Implementation: Layer Integrated Gradients}
+	
+	\begin{equation}
+		\text{LIG}_{j}^{l} = (h_{j}^{l} - {h_{j}^{l}}') \int_{\alpha=0}^{1} \frac{\partial F}{\partial h_{j}^{l}}  \Big|_{x' + \alpha (x - x')} \ d\alpha
+	\end{equation}
+	
+	
+	\noindent where,
+	
+	\begin{align*}
+		x, x', i, F &= \text{as above} \\
+		l &= \text{a layer} \\
+		j &= \text{index of a neuron} \ h \ \text{in} \ l \\		
+		h_{j}^{l} &= h_{j}^{l}(x) \ \text{the activation of} \ x \\
+		{h_{j}^{l}}' &= h_{j}^{l}(x') \ \text{the activation of} \ x'
+	\end{align*}
+	
+	\subsection{Layer Conductance}
+	
+	\subsubsection{LC for a Neuron}
+	
+	\begin{align*}
+		\text{LC}_{x_i \rightarrow {h_{j}^{l}}} &= \ (x_i - x_i') \int_{\alpha=0}^{1} \frac{\partial F}{\partial {h_{j}^{l}}} \frac{\partial {h_{j}^{l}}}{\partial x_i} \Big|_{x' + \alpha (x - x')} \ d\alpha
+	\end{align*}
+
+	\subsubsection{LC for a Layer $l$}
+
+	\begin{align*}
+		\text{LC}_{i}^{l} &= \ \sum_{j=1}^{J} \ (x_i - x_i') \int_{\alpha=0}^{1} \frac{\partial F}{\partial {h_{j}^{l}}} \frac{\partial {h_{j}^{l}}}{\partial x_i} \Big|_{x' + \alpha (x - x')} \ d\alpha
+	\end{align*}
+
+	\subsection{Our Context}
+	
+	\begin{itemize}
+		\item $i \in \lbrace 0, 1, \ldots, 767 \rbrace$ (DistilBERT embedding dimension is $768$)
+		\item $l \in \lbrace 0, 1, \ldots, 6 \rbrace$ (DistilBERT has $6$ layers)
+		\item $x'$ represents the token $[PAD]$
+		\item ${h_{j}^{l}}$ is the $j^{th}$ output of layer $l$, analogous to a neuron.
+		\item Visualizations with "lig\_" prefix employ layer integrated gradients
+		\item Visualizations with "lc\_" prefix employ layer conductance
+	\end{itemize}
+	
+	\section{DistilBERT}
+	
+	\subsection{Raw Architecture}
+	
+	\subsubsection{Baseline}
+	
+	\begin{itemize}
+		\item Embedding
+		
+		\begin{itemize}
+			\item Word Embeddings: Embedding(30522, 768, padding\_idx=0)
+			\item Position Embeddings: Embedding(512, 768)
+			\item Layer Norm: LayerNorm((768,), eps=1e-12, elementwise\_affine=True)
+			\item (While training) Dropout: Dropout(p=0.1, inplace=False)
+		\end{itemize}
+		
+		\item Transformer
+		\begin{itemize}
+			
+			\item Transformer blocks (6)
+			\begin{itemize}
+				
+				\item Attention (Multi-headed)
+				\begin{itemize}
+					\item (While training) Dropout: Dropout(p=0.1, inplace=False)
+					\item Query: Linear(in\_features=768, out\_features=768, bias=True)
+					\item Key: Linear(in\_features=768, out\_features=768, bias=True)
+					\item Value: Linear(in\_features=768, out\_features=768, bias=True)
+					\item Out: Linear(in\_features=768, out\_features=768, bias=True)
+				\end{itemize}
+				\item Layer Norm: LayerNorm((768,), eps=1e-12, elementwise\_affine=True)
+				\item Feed forward
+				\begin{itemize}
+					\item (While training) Dropout: Dropout(p=0.1, inplace=False)
+					\item Linear: Linear(in\_features=768, out\_features=3072, bias=True)
+					\item Linear: Linear(in\_features=3072, out\_features=768, bias=True)
+					\item Activation: GELU, Gaussian Error Linear Unit
+				\end{itemize}
+				\item Output layer norm: LayerNorm((768,), eps=1e-12, elementwise\_affine=True) \\
+				***\textbf{NOTE:} Layer conductance is performed on these 768 outputs.***
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+	
+	\subsubsection{Model-Specific Additional Layers}
+	
+	After all $6$ transformer blocks have run, fine-tuned models add an additional layer.
+	
+	\subsubsection*{qanda}
+	
+	\begin{itemize}
+		\item qa\_outputsLinear(in\_features=768, out\_features=768, bias=True)
+		\item (While training) Dropout: Dropout(p=0.1, inplace=False)
+	\end{itemize}
+	
+	\subsubsection*{Sequence Classification}
+	
+	\begin{itemize}
+		\item pre\_classifier: Linear(in\_features=768, out\_features=768, bias=True)
+		\item classifier: Linear(in\_features=768, out\_features=2, bias=True)
+		\item (While training) Dropout: Dropout(p=0.2, inplace=False)
+	\end{itemize}
+	
+	\subsubsection*{Masked Language Modeling}
+	
+	\begin{itemize}
+		\item vocab\_transform: Linear(in\_features=768, out\_features=768, bias=True)
+		\item vocab\_layer\_norm: LayerNorm((768,), eps=1e-12, elementwise\_affine=True)
+		\item vocab\_projector: Linear(in\_features=768, out\_features=30522, bias=True)
+		\item MLM loss function: CrossEntropyLoss()
+	\end{itemize}
+	
+	\subsection{Architectural Details}
+	
+	Several details to be added
+	
+	\subsubsection{Attention Mechanism}
+	
+	Before the final linear layer, the attention mechanism consists of $AV$, for:
+	
+	\begin{itemize}
+		\item $A = \text{softmax}\left(\frac{QK^T}{\sqrt{768}}\right)$ is the attention matrix
+		\item $Q =$ query matrix 
+		\item $K =$ key matrix
+		\item $V =$ value matrix
+	\end{itemize}
+	
+	\subsubsection*{Muli-heads}
+	
+	Comments to be added
+	
+	
+	
+	
+	
+	
+\end{document}

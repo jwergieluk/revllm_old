@@ -1,3 +1,7 @@
+# System-level dependencies required
+# - pkg-config
+# - libmysqlclient-dev (or mysql-devel on RPM-based systems)
+
 click~=8.1.7
 # transformers~=4.33.1
 
@@ -11,3 +15,27 @@ captum==0.6.0
 seaborn==0.12.2
 accelerate>=0.20.1
 evaluate==0.4.0
+
+# from polyjuice_nlp
+
+munch>=2.5.0
+scipy
+sentence-transformers>=1.1.0
+transformers>=4.5.1
+pattern>=3.6.0
+nltk
+zss
+spacy>=3.0.6
+
+# Python packages# System-level dependencies required
+# - pkg-config
+# - libmysqlclient-dev (or mysql-devel on RPM-based systems)
+
+mysqlclient>=2.2.0
+polyjuice_nlp>=0.1.5
+```
+spacy
+
+# Post-installation script
+# After installing spacy, run the following command to download the necessary model:
+# python -m spacy download en_core_web_sm
