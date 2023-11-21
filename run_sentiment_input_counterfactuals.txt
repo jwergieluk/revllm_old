@@ -1,0 +1,355 @@
+[
+    {
+        "original_context": "The movie had breathtaking visuals, but the storyline left a lot to be desired.",
+        "ground_truth": "Negative",
+        "adversarial_example": "The movie had breathtaking visuals, yet the storyline didn't quite meet expectations.",
+        "counterfactuals": {
+            "negation": {
+                "text": "The movie didn't have breathtaking visuals, and the storyline left a lot to be desired.",
+                "ground_truth": "Negative"
+            },
+            "quantifier": {
+                "text": "Every part of the movie, including the breathtaking visuals and the storyline, left a lot to be desired.",
+                "ground_truth": "Negative"
+            },
+            "shuffle": {
+                "text": "The storyline left a lot to be desired, but the movie had breathtaking visuals.",
+                "ground_truth": "Negative"
+            },
+            "lexical": {
+                "text": "The movie had stunning visuals, but the storyline was lacking.",
+                "ground_truth": "Negative"
+            },
+            "resemantic": {
+                "text": "The movie had poor visuals, and the storyline left a lot to be desired.",
+                "ground_truth": "Negative"
+            },
+            "insert": {
+                "text": "The movie had breathtaking visuals, but the storyline, unlike the special effects, left a lot to be desired.",
+                "ground_truth": "Negative"
+            },
+            "delete": {
+                "text": "The movie had breathtaking visuals.",
+                "ground_truth": "Positive"
+            }
+        }
+    },
+    {
+        "original_context": "I love sunny days so much!",
+        "ground_truth": "Positive",
+        "adversarial_example": "Sunny days are always a delight, aren't they?",
+        "counterfactuals": {
+            "negation": {
+                "text": "I don't love sunny days so much!",
+                "ground_truth": "Negative"
+            },
+            "quantifier": {
+                "text": "I love all sunny days so much!",
+                "ground_truth": "Positive"
+            },
+            "shuffle": {
+                "text": "So much, I love sunny days!",
+                "ground_truth": "Positive"
+            },
+            "lexical": {
+                "text": "I adore sunny days so much!",
+                "ground_truth": "Positive"
+            },
+            "resemantic": {
+                "text": "I love rainy days so much!",
+                "ground_truth": "Positive"
+            },
+            "insert": {
+                "text": "I love sunny days so much, especially in the summer!",
+                "ground_truth": "Positive"
+            },
+            "delete": {
+                "text": "I love sunny days!",
+                "ground_truth": "Positive"
+            }
+        }
+    },
+    {
+        "original_context": "This is absolutely the worst movie I've ever seen.",
+        "ground_truth": "Negative",
+        "adversarial_example": "Hardly a movie worth watching, this one.",
+        "counterfactuals": {
+            "negation": {
+                "text": "This is not the worst movie I've ever seen.",
+                "ground_truth": "Positive"
+            },
+            "quantifier": {
+                "text": "This is one of the worst movies I've ever seen.",
+                "ground_truth": "Negative"
+            },
+            "shuffle": {
+                "text": "The worst movie I've ever seen is absolutely this.",
+                "ground_truth": "Negative"
+            },
+            "lexical": {
+                "text": "This is absolutely the most disappointing movie I've ever seen.",
+                "ground_truth": "Negative"
+            },
+            "resemantic": {
+                "text": "This is absolutely the best movie I've ever seen.",
+                "ground_truth": "Positive"
+            },
+            "insert": {
+                "text": "This is absolutely the worst movie I've ever seen in recent years.",
+                "ground_truth": "Negative"
+            },
+            "delete": {
+                "text": "This is the worst movie.",
+                "ground_truth": "Negative"
+            }
+        }
+    },
+    {
+        "original_context": "I'm thrilled with the performance of my new laptop.",
+        "ground_truth": "Positive",
+        "adversarial_example": "My new laptop's performance is quite satisfying.",
+        "counterfactuals": {
+            "negation": {
+                "text": "I'm not thrilled with the performance of my new laptop.",
+                "ground_truth": "Negative"
+            },
+            "quantifier": {
+                "text": "I'm completely thrilled with the performance of my new laptop.",
+                "ground_truth": "Positive"
+            },
+            "shuffle": {
+                "text": "With the performance of my new laptop, I'm thrilled.",
+                "ground_truth": "Positive"
+            },
+            "lexical": {
+                "text": "I'm delighted with the performance of my new laptop.",
+                "ground_truth": "Positive"
+            },
+            "resemantic": {
+                "text": "I'm frustrated with the performance of my new laptop.",
+                "ground_truth": "Negative"
+            },
+            "insert": {
+                "text": "I'm thrilled with the exceptional performance of my new laptop.",
+                "ground_truth": "Positive"
+            },
+            "delete": {
+                "text": "I'm thrilled with my new laptop.",
+                "ground_truth": "Positive"
+            }
+        }
+    },
+    {
+        "original_context": "The food was cold and my order was late.",
+        "ground_truth": "Negative",
+        "adversarial_example": "The food didn't stay warm, and waiting for the order took a while.",
+        "counterfactuals": {
+            "negation": {
+                "text": "The food was not cold and my order was on time.",
+                "ground_truth": "Positive"
+            },
+            "quantifier": {
+                "text": "All the food was cold and every order was late.",
+                "ground_truth": "Negative"
+            },
+            "shuffle": {
+                "text": "My order was late and the food was cold.",
+                "ground_truth": "Negative"
+            },
+            "lexical": {
+                "text": "The food was lukewarm and my order was delayed.",
+                "ground_truth": "Negative"
+            },
+            "resemantic": {
+                "text": "The food was hot and my order was early.",
+                "ground_truth": "Positive"
+            },
+            "insert": {
+                "text": "The food was cold and my order was late, which was disappointing.",
+                "ground_truth": "Negative"
+            },
+            "delete": {
+                "text": "The food was cold.",
+                "ground_truth": "Negative"
+            }
+        }
+    },
+    {
+        "original_context": "The new song from the artist is an instant hit and I can't stop listening.",
+        "adversarial_example": "The latest track from the artist is unexpectedly addictive, just can't quit playing it.",
+        "ground_truth": "Positive",
+        "counterfactuals": {
+            "negation": {
+                "text": "The new song from the artist isn't an instant hit and I can stop listening.",
+                "ground_truth": "Negative"
+            },
+            "quantifier": {
+                "text": "Every new song from the artist is an instant hit and I can't stop listening.",
+                "ground_truth": "Positive"
+            },
+            "shuffle": {
+                "text": "I can't stop listening to the new song from the artist, it's an instant hit.",
+                "ground_truth": "Positive"
+            },
+            "lexical": {
+                "text": "The latest song from the artist is a big success and I'm addicted to it.",
+                "ground_truth": "Positive"
+            },
+            "resemantic": {
+                "text": "The new song from the artist is a total flop and I don't enjoy it.",
+                "ground_truth": "Negative"
+            },
+            "insert": {
+                "text": "The new song from the artist is an instant hit and I can't stop listening, it's amazing.",
+                "ground_truth": "Positive"
+            },
+            "delete": {
+                "text": "The new song from the artist is an instant hit.",
+                "ground_truth": "Positive"
+            }
+        }
+    },
+    {
+        "original_context": "I'm disappointed with the build quality of the furniture.",
+        "adversarial_example": "The construction quality of the furniture didn't quite meet my expectations.",
+        "ground_truth": "Negative",
+        "counterfactuals": {
+            "negation": {
+                "text": "I'm not disappointed with the build quality of the furniture.",
+                "ground_truth": "Positive"
+            },
+            "quantifier": {
+                "text": "I'm completely disappointed with the build quality of all the furniture.",
+                "ground_truth": "Negative"
+            },
+            "shuffle": {
+                "text": "With the build quality of the furniture, I'm disappointed.",
+                "ground_truth": "Negative"
+            },
+            "lexical": {
+                "text": "I'm unsatisfied with the construction of the furniture.",
+                "ground_truth": "Negative"
+            },
+            "resemantic": {
+                "text": "I'm impressed with the build quality of the furniture.",
+                "ground_truth": "Positive"
+            },
+            "insert": {
+                "text": "I'm disappointed with the build quality of the furniture, it's not what I expected.",
+                "ground_truth": "Negative"
+            },
+            "delete": {
+                "text": "I'm disappointed with the furniture.",
+                "ground_truth": "Negative"
+            }
+        }
+    },
+    {
+        "original_context": "Despite the critics, I found the movie to be quite entertaining and fun.",
+        "adversarial_example": "Contrary to critical reviews, the movie turned out to be engaging and enjoyable.",
+        "ground_truth": "Positive",
+        "counterfactuals": {
+            "negation": {
+                "text": "Despite the critics, I didn't find the movie to be entertaining or fun.",
+                "ground_truth": "Negative"
+            },
+            "quantifier": {
+                "text": "Like the critics, I found the movie to be quite entertaining and fun.",
+                "ground_truth": "Positive"
+            },
+            "shuffle": {
+                "text": "I found the movie to be quite entertaining and fun, despite the critics.",
+                "ground_truth": "Positive"
+            },
+            "lexical": {
+                "text": "Despite the critics, I found the movie to be quite enjoyable and amusing.",
+                "ground_truth": "Positive"
+            },
+            "resemantic": {
+                "text": "Despite the critics, I found the movie to be quite boring and dull.",
+                "ground_truth": "Negative"
+            },
+            "insert": {
+                "text": "Despite the critics, I found the movie to be quite entertaining and fun, a real surprise.",
+                "ground_truth": "Positive"
+            },
+            "delete": {
+                "text": "I found the movie to be quite entertaining and fun.",
+                "ground_truth": "Positive"
+            }
+        }
+    },
+    {
+        "original_context": "The plot had potential, but the poor character development ruined the experience.",
+        "adversarial_example": "While the plot showed promise, the lackluster character development diminished the overall experience.",
+        "ground_truth": "Negative",
+        "counterfactuals": {
+            "negation": {
+                "text": "The plot had potential and the character development enhanced the experience.",
+                "ground_truth": "Positive"
+            },
+            "quantifier": {
+                "text": "Every aspect of the plot had potential, but the poor character development ruined the experience.",
+                "ground_truth": "Negative"
+            },
+            "shuffle": {
+                "text": "The poor character development ruined the experience, though the plot had potential.",
+                "ground_truth": "Negative"
+            },
+            "lexical": {
+                "text": "The plot had potential, but the lackluster character development marred the experience.",
+                "ground_truth": "Negative"
+            },
+            "resemantic": {
+                "text": "The plot lacked potential, and the poor character development ruined the experience.",
+                "ground_truth": "Negative"
+            },
+            "insert": {
+                "text": "The plot had potential, but the poor character development completely ruined the experience for me.",
+                "ground_truth": "Negative"
+            },
+            "delete": {
+                "text": "The plot had potential, but the character development ruined the experience.",
+                "ground_truth": "Negative"
+            }
+        }
+    },
+    {
+        "original_context": "The innovation in this tech product is commendable, but it still feels like a first-gen attempt.",
+        "adversarial_example": "While the innovation in this tech product earns praise, it somewhat resembles an early version.",
+        "ground_truth": "Positive",
+        "counterfactuals": {
+            "negation": {
+                "text": "The innovation in this tech product isn't commendable, and it feels like a first-gen attempt.",
+                "ground_truth": "Negative"
+            },
+            "quantifier": {
+                "text": "Every aspect of the innovation in this tech product is commendable, but it still feels like a first-gen attempt.",
+                "ground_truth": "Positive"
+            },
+            "shuffle": {
+                "text": "It still feels like a first-gen attempt, but the innovation in this tech product is commendable.",
+                "ground_truth": "Positive"
+            },
+            "lexical": {
+                "text": "The advancement in this tech product is admirable, but it still feels like an initial attempt.",
+                "ground_truth": "Positive"
+            },
+            "resemantic": {
+                "text": "The innovation in this tech product is unimpressive, and it feels like a first-gen attempt.",
+                "ground_truth": "Negative"
+            },
+            "insert": {
+                "text": "The innovation in this tech product is commendable, but it still feels like a first-gen attempt, needing improvement.",
+                "ground_truth": "Positive"
+            },
+            "delete": {
+                "text": "The innovation in this tech product is commendable.",
+                "ground_truth": "Positive"
+            }
+        }
+    }
+]
+           
+    
+         

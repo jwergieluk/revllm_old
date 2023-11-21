@@ -45,7 +45,7 @@ For a $1$-dimensional example, let $x \in \mathbb{R}$, $F(x) = x^2$, input $x = 
 In practice, the computation of IG is as follows.  Given a function $F$ and an input feature $x_i$, Integrated Gradient calculations are approximated by:
 
 \begin{equation}
-\text{IG}_i \approx (x_i - x_i') \times \sum_{k=1}^{m} \ \bigg( \frac{\partial F}{\partial x_i} \Big|_{x' + \frac{k}{m} \times (x - x')} \bigg) \times \frac{1}{m}
+\text{IG}_i \approx (x_i - x_i') \times \sum_{k=0}^{m} \ \bigg( \frac{\partial F}{\partial x_i} \Big|_{x' + \frac{k}{m} \times (x - x')} \bigg) \times \frac{1}{m+1}
 \end{equation}
 
 \noindent where $F$, $x_i$ and $x_i'$ are as above.  The path is discretized into $m$ steps, with default $m = 50$.

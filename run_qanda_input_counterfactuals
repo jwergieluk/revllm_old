@@ -1,0 +1,492 @@
+[
+    {
+        "original_question": "What is important to us?",
+        "original_context": "It is important to us to include, empower and support humans of all kinds.",
+        "ground_truth": "to include, empower and support humans of all kinds",
+        "question_counterfactuals": {
+            "negation": {
+                "text": "What is not important to us?",
+                "ground_truth": "Not to include, empower, or support humans of all kinds"
+            },
+            "lexical": {
+                "text": "What is vital to us?",
+                "ground_truth": "to include, empower and support humans of all kinds"
+            },
+            "resemantic": {
+                "text": "What is irrelevant to us?",
+                "ground_truth": "Opposite of including, empowering, and supporting humans of all kinds"
+            },
+            "insert": {
+                "text": "What is important to us in terms of human inclusion?",
+                "ground_truth": "to include, empower and support humans of all kinds"
+            },
+            "delete": {
+                "text": "What is to us?",
+                "ground_truth": "Incoherent or not applicable"
+            }
+        },
+        "context_counterfactuals": {
+            "negation": {
+                "text": "It is not important to us to include, empower and support humans of all kinds.",
+                "ground_truth": "Not to include, empower, or support humans of all kinds"
+            },
+            "lexical": {
+                "text": "It is vital for us to include, empower and support humans of all kinds.",
+                "ground_truth": "to include, empower and support humans of all kinds"
+            },
+            "resemantic": {
+                "text": "It is important to us to exclude, overlook and ignore humans of all kinds.",
+                "ground_truth": "to exclude, overlook and ignore humans of all kinds"
+            },
+            "insert": {
+                "text": "It is important to us to include, empower and support humans of all kinds, without discrimination.",
+                "ground_truth": "to include, empower and support humans of all kinds"
+            },
+            "delete": {
+                "text": "It is important to us to support humans of all kinds.",
+                "ground_truth": "to support humans of all kinds"
+            }
+        }
+    },
+    {
+        "original_question": "What color is the sky on a clear day?",
+        "original_context": "During a clear day, the sky often appears to be blue to the human eye.",
+        "ground_truth": "Blue",
+        "question_counterfactuals": {
+            "negation": {
+                "text": "What color isn't the sky on a clear day?",
+                "ground_truth": "Not blue"
+            },
+            "lexical": {
+                "text": "What hue does the sky take on a clear day?",
+                "ground_truth": "Blue"
+            },
+            "resemantic": {
+                "text": "What color is the sky on a cloudy day?",
+                "ground_truth": "Gray or white"
+            },
+            "insert": {
+                "text": "What color is the sky typically on a bright and clear day?",
+                "ground_truth": "Blue"
+            },
+            "delete": {
+                "text": "What color is the sky?",
+                "ground_truth": "Varies, commonly blue"
+            }
+        },
+        "context_counterfactuals": {
+            "negation": {
+                "text": "During a clear day, the sky does not appear to be blue to the human eye.",
+                "ground_truth": "Not blue"
+            },
+            "lexical": {
+                "text": "During a clear day, the sky often seems to be azure to the human eye.",
+                "ground_truth": "Azure"
+            },
+            "resemantic": {
+                "text": "During a clear day, the sky often appears to be gray to the human eye.",
+                "ground_truth": "Gray"
+            },
+            "insert": {
+                "text": "During a clear day, the sky often appears to be blue, without any clouds, to the human eye.",
+                "ground_truth": "Blue"
+            },
+            "delete": {
+                "text": "The sky often appears to be blue.",
+                "ground_truth": "Blue"
+            }
+        }
+    },
+    {
+        "original_question": "What is the boiling point of water at sea level?",
+        "original_context": "Water boils at 100 degrees Celsius or 212 degrees Fahrenheit at sea level.",
+        "ground_truth": "100 degrees Celsius",
+        "question_counterfactuals": {
+            "negation": {
+                "text": "What is not the boiling point of water at sea level?",
+                "ground_truth": "Any temperature other than 100 degrees Celsius"
+            },
+            "lexical": {
+                "text": "At what temperature does water boil at sea level?",
+                "ground_truth": "100 degrees Celsius"
+            },
+            "resemantic": {
+                "text": "What is the freezing point of water at sea level?",
+                "ground_truth": "0 degrees Celsius"
+            },
+            "insert": {
+                "text": "What is the boiling point of water at sea level in Celsius?",
+                "ground_truth": "100 degrees Celsius"
+            },
+            "delete": {
+                "text": "What is the boiling point of water?",
+                "ground_truth": "100 degrees Celsius at sea level, varies with altitude"
+            }
+        },
+        "context_counterfactuals": {
+            "negation": {
+                "text": "Water does not boil at 100 degrees Celsius or 212 degrees Fahrenheit at sea level.",
+                "ground_truth": "Incorrect or misleading information"
+            },
+            "lexical": {
+                "text": "Water boils at 100 degrees Centigrade or 212 degrees Fahrenheit at sea level.",
+                "ground_truth": "100 degrees Centigrade"
+            },
+            "resemantic": {
+                "text": "Water freezes at 100 degrees Celsius or 212 degrees Fahrenheit at sea level.",
+                "ground_truth": "Incorrect or misleading information"
+            },
+            "insert": {
+                "text": "Under normal atmospheric pressure, water boils at 100 degrees Celsius or 212 degrees Fahrenheit at sea level.",
+                "ground_truth": "100 degrees Celsius"
+            },
+            "delete": {
+                "text": "Water boils at 100 degrees Celsius at sea level.",
+                "ground_truth": "100 degrees Celsius"
+            }
+        }
+    },
+    {
+        "original_question": "Who wrote the play 'Romeo and Juliet'?",
+        "original_context": "'Romeo and Juliet' is a tragedy written by William Shakespeare early in his career about two young star-crossed lovers.",
+        "ground_truth": "William Shakespeare",
+        "question_counterfactuals": {
+            "negation": {
+                "text": "Who did not write the play 'Romeo and Juliet'?",
+                "ground_truth": "Any author other than William Shakespeare"
+            },
+            "lexical": {
+                "text": "Who is the author of the play 'Romeo and Juliet'?",
+                "ground_truth": "William Shakespeare"
+            },
+            "resemantic": {
+                "text": "Who wrote the play 'Hamlet'?",
+                "ground_truth": "William Shakespeare"
+            },
+            "insert": {
+                "text": "Who wrote the famous play 'Romeo and Juliet'?",
+                "ground_truth": "William Shakespeare"
+            },
+            "delete": {
+                "text": "Who wrote 'Romeo and Juliet'?",
+                "ground_truth": "William Shakespeare"
+            }
+        },
+        "context_counterfactuals": {
+            "negation": {
+                "text": "'Romeo and Juliet' is not a tragedy written by William Shakespeare but by another playwright.",
+                "ground_truth": "Incorrect or misleading information"
+            },
+            "lexical": {
+                "text": "'Romeo and Juliet' is a drama penned by William Shakespeare early in his career about two young star-crossed lovers.",
+                "ground_truth": "William Shakespeare"
+            },
+            "resemantic": {
+                "text": "'Romeo and Juliet' is a comedy written by William Shakespeare early in his career about two young star-crossed lovers.",
+                "ground_truth": "Incorrect genre, correct author"
+            },
+            "insert": {
+                "text": "'Romeo and Juliet', a well-known tragedy, was written by William Shakespeare early in his career about two young star-crossed lovers.",
+                "ground_truth": "William Shakespeare"
+            },
+            "delete": {
+                "text": "'Romeo and Juliet' was written by William Shakespeare.",
+                "ground_truth": "William Shakespeare"
+            }
+        }
+    },
+    {
+        "original_question": "In what type of economic system does the government play the smallest role?",
+        "original_context": "In a free market economic system, the government's role is typically minimal, with the idea that supply and demand will regulate the economy.",
+        "ground_truth": "Free market economic system",
+        "question_counterfactuals": {
+            "negation": {
+                "text": "In what type of economic system does the government play the largest role?",
+                "ground_truth": "Centralized or planned economic system"
+            },
+            "lexical": {
+                "text": "In what economic system is the government's involvement minimal?",
+                "ground_truth": "Free market economic system"
+            },
+            "resemantic": {
+                "text": "In what type of economic system is the government's role dominant?",
+                "ground_truth": "Centralized or planned economic system"
+            },
+            "insert": {
+                "text": "In what type of modern economic system does the government play the smallest role?",
+                "ground_truth": "Free market economic system"
+            },
+            "delete": {
+                "text": "What economic system has minimal government role?",
+                "ground_truth": "Free market economic system"
+            }
+        },
+        "context_counterfactuals": {
+            "negation": {
+                "text": "In a free market economic system, the government's role is not minimal, and supply and demand do not regulate the economy.",
+                "ground_truth": "Incorrect or misleading information"
+            },
+            "lexical": {
+                "text": "In a laissez-faire economic system, the government's role is typically minimal, letting supply and demand regulate the economy.",
+                "ground_truth": "Laissez-faire economic system"
+            },
+            "resemantic": {
+                "text": "In a socialist economic system, the government's role is typically significant, intervening in supply and demand to regulate the economy.",
+                "ground_truth": "Socialist economic system"
+            },
+            "insert": {
+                "text": "In a free market economic system, the government's role is typically minimal, relying on the market forces of supply and demand to regulate the economy.",
+                "ground_truth": "Free market economic system"
+            },
+            "delete": {
+                "text": "The government's role is typically minimal in a free market economic system.",
+                "ground_truth": "Free market economic system"
+            }
+        }
+    },
+    {
+        "original_question": "What is the primary process by which plants make food?",
+        "original_context": "Plants convert sunlight into energy through a process known as photosynthesis, using chlorophyll in their leaves to produce food.",
+        "ground_truth": "Photosynthesis",
+        "question_counterfactuals": {
+            "negation": {
+                "text": "What is not the primary process by which plants make food?",
+                "ground_truth": "Any process other than photosynthesis"
+            },
+            "lexical": {
+                "text": "What is the main method plants use to create food?",
+                "ground_truth": "Photosynthesis"
+            },
+            "resemantic": {
+                "text": "What process do plants use to breathe?",
+                "ground_truth": "Respiration"
+            },
+            "insert": {
+                "text": "In botany, what is the primary process by which plants make food?",
+                "ground_truth": "Photosynthesis"
+            },
+            "delete": {
+                "text": "How do plants make food?",
+                "ground_truth": "Photosynthesis"
+            }
+        },
+        "context_counterfactuals": {
+            "negation": {
+                "text": "Plants do not convert sunlight into energy through a process known as photosynthesis for producing food.",
+                "ground_truth": "Incorrect or misleading information"
+            },
+            "lexical": {
+                "text": "Plants transform sunlight into energy through a mechanism known as photosynthesis, utilizing chlorophyll in their leaves to generate food.",
+                "ground_truth": "Photosynthesis"
+            },
+            "resemantic": {
+                "text": "Plants convert carbon dioxide into oxygen through a process known as respiration, using chlorophyll in their leaves to purify air.",
+                "ground_truth": "Respiration"
+            },
+            "insert": {
+                "text": "In a crucial process called photosynthesis, plants convert sunlight into energy, using chlorophyll in their leaves to produce food.",
+                "ground_truth": "Photosynthesis"
+            },
+            "delete": {
+                "text": "Plants use photosynthesis to produce food.",
+                "ground_truth": "Photosynthesis"
+            }
+        }
+    },
+    {
+        "original_question": "What causes the seasons on Earth?",
+        "original_context": "The tilt of the Earth's rotational axis away or toward the sun causes seasons. During different times of the year, the northern or southern hemisphere tilts towards the Sun, resulting in the change of seasons.",
+        "ground_truth": "The tilt of the Earth's axis",
+        "question_counterfactuals": {
+            "negation": {
+                "text": "What does not cause the seasons on Earth?",
+                "ground_truth": "Any factor other than the tilt of the Earth's axis"
+            },
+            "lexical": {
+                "text": "What is responsible for the change of seasons on Earth?",
+                "ground_truth": "The tilt of the Earth's axis"
+            },
+            "resemantic": {
+                "text": "What causes day and night on Earth?",
+                "ground_truth": "The rotation of the Earth on its axis"
+            },
+            "insert": {
+                "text": "What astronomical phenomenon causes the seasons on Earth?",
+                "ground_truth": "The tilt of the Earth's axis"
+            },
+            "delete": {
+                "text": "What causes seasons?",
+                "ground_truth": "The tilt of the Earth's axis"
+            }
+        },
+        "context_counterfactuals": {
+            "negation": {
+                "text": "The tilt of the Earth's rotational axis away or toward the sun does not cause seasons.",
+                "ground_truth": "Incorrect or misleading information"
+            },
+            "lexical": {
+                "text": "The inclination of the Earth's rotational axis away or toward the sun leads to seasons.",
+                "ground_truth": "The tilt of the Earth's axis"
+            },
+            "resemantic": {
+                "text": "The distance of the Earth from the sun during its orbit causes seasons.",
+                "ground_truth": "Incorrect, common misconception"
+            },
+            "insert": {
+                "text": "Primarily, the tilt of the Earth's rotational axis away or toward the sun causes seasons, affecting the amount of sunlight received.",
+                "ground_truth": "The tilt of the Earth's axis"
+            },
+            "delete": {
+                "text": "The tilt of the Earth's axis causes seasons.",
+                "ground_truth": "The tilt of the Earth's axis"
+            }
+        }
+    },
+    {
+        "original_question": "How does a black hole form?",
+        "original_context": "A black hole can form when a massive star collapses under its own gravity during a supernova explosion, compacting its mass into a very small space and creating a point of infinite density known as a singularity.",
+        "ground_truth": "Collapse of a massive star under its own gravity",
+        "question_counterfactuals": {
+            "negation": {
+                "text": "How does a black hole not form?",
+                "ground_truth": "Any process other than the collapse of a massive star"
+            },
+            "lexical": {
+                "text": "What is the process of black hole creation?",
+                "ground_truth": "Collapse of a massive star under its own gravity"
+            },
+            "resemantic": {
+                "text": "How does a supernova form?",
+                "ground_truth": "Explosion of a massive star at the end of its life cycle"
+            },
+            "insert": {
+                "text": "In astronomy, how does a black hole form?",
+                "ground_truth": "Collapse of a massive star under its own gravity"
+            },
+            "delete": {
+                "text": "What forms a black hole?",
+                "ground_truth": "Collapse of a massive star under its own gravity"
+            }
+        },
+        "context_counterfactuals": {
+            "negation": {
+                "text": "A black hole does not form when a massive star collapses under its own gravity.",
+                "ground_truth": "Incorrect or misleading information"
+            },
+            "lexical": {
+                "text": "A black hole is created when a large star implodes due to gravitational forces, condensing its matter into a tiny area and forming a singularity.",
+                "ground_truth": "Collapse of a massive star under its own gravity"
+            },
+            "resemantic": {
+                "text": "A black hole forms through the gradual accumulation of dark matter in space, eventually reaching a critical density.",
+                "ground_truth": "Incorrect, common misconception"
+            },
+            "insert": {
+                "text": "A black hole can form, typically in a galaxy's center, when a massive star collapses under its own gravity during a supernova explosion.",
+                "ground_truth": "Collapse of a massive star under its own gravity"
+            },
+            "delete": {
+                "text": "A black hole forms when a massive star collapses under gravity.",
+                "ground_truth": "Collapse of a massive star under its own gravity"
+            }
+        }
+    },
+    {
+        "original_question": "What was the significance of the Rosetta Stone in understanding ancient Egyptian hieroglyphs?",
+        "original_context": "The Rosetta Stone was instrumental in deciphering ancient Egyptian hieroglyphs, as it contained the same text in Greek, Demotic, and hieroglyphic script, allowing scholars to translate the hieroglyphs using the known Greek language.",
+        "ground_truth": "It helped decipher Egyptian hieroglyphs",
+        "question_counterfactuals": {
+            "negation": {
+                "text": "What was not the role of the Rosetta Stone in understanding ancient Egyptian hieroglyphs?",
+                "ground_truth": "Any role other than aiding in deciphering hieroglyphs"
+            },
+            "lexical": {
+                "text": "How did the Rosetta Stone aid in deciphering ancient Egyptian hieroglyphs?",
+                "ground_truth": "It helped decipher Egyptian hieroglyphs"
+            },
+            "resemantic": {
+                "text": "What was the significance of the Rosetta Stone in understanding ancient Greek texts?",
+                "ground_truth": "Not directly significant for understanding Greek texts"
+            },
+            "insert": {
+                "text": "In historical linguistics, what was the significance of the Rosetta Stone in understanding ancient Egyptian hieroglyphs?",
+                "ground_truth": "It helped decipher Egyptian hieroglyphs"
+            },
+            "delete": {
+                "text": "Why was the Rosetta Stone important for Egyptian hieroglyphs?",
+                "ground_truth": "It helped decipher Egyptian hieroglyphs"
+            }
+        },
+        "context_counterfactuals": {
+            "negation": {
+                "text": "The Rosetta Stone was not instrumental in deciphering ancient Egyptian hieroglyphs, as it did not contain texts useful for translation.",
+                "ground_truth": "Incorrect or misleading information"
+            },
+            "lexical": {
+                "text": "The Rosetta Stone was crucial in unlocking the secrets of ancient Egyptian hieroglyphs, featuring the same inscription in Greek, Demotic, and hieroglyphs.",
+                "ground_truth": "It helped decipher Egyptian hieroglyphs"
+            },
+            "resemantic": {
+                "text": "The Rosetta Stone played a key role in understanding ancient Roman scripts, as it contained translations between Latin and hieroglyphs.",
+                "ground_truth": "Incorrect, misstates the Rosetta Stone's purpose and content"
+            },
+            "insert": {
+                "text": "The Rosetta Stone, a significant archaeological find, was instrumental in deciphering ancient Egyptian hieroglyphs, containing multilingual inscriptions.",
+                "ground_truth": "It helped decipher Egyptian hieroglyphs"
+            },
+            "delete": {
+                "text": "The Rosetta Stone contained the same text in hieroglyphic script, allowing translation of hieroglyphs.",
+                "ground_truth": "It helped decipher Egyptian hieroglyphs"
+            }
+        }
+    },
+    {
+        "original_question": "What is the concept of 'Schrodinger's cat' in quantum mechanics?",
+        "original_context": "Schrodinger's cat is a thought experiment devised by Erwin Schrodinger that presents a cat that may be simultaneously both alive and dead, depending on an earlier random event, as a way to illustrate the complexity of quantum superposition.",
+        "ground_truth": "A thought experiment illustrating quantum superposition",
+        "question_counterfactuals": {
+            "negation": {
+                "text": "What isn't the concept of 'Schrodinger's cat' in quantum mechanics?",
+                "ground_truth": "Any concept other than a thought experiment illustrating quantum superposition"
+            },
+            "lexical": {
+                "text": "What does 'Schrodinger's cat' demonstrate in quantum physics?",
+                "ground_truth": "A thought experiment illustrating quantum superposition"
+            },
+            "resemantic": {
+                "text": "What is the principle of uncertainty in quantum mechanics?",
+                "ground_truth": "The Heisenberg Uncertainty Principle"
+            },
+            "insert": {
+                "text": "In theoretical physics, what is the concept of 'Schrodinger's cat'?",
+                "ground_truth": "A thought experiment illustrating quantum superposition"
+            },
+            "delete": {
+                "text": "What is 'Schrodinger's cat'?",
+                "ground_truth": "A thought experiment illustrating quantum superposition"
+            }
+        },
+        "context_counterfactuals": {
+            "negation": {
+                "text": "Schrodinger's cat is not a thought experiment and does not illustrate quantum superposition.",
+                "ground_truth": "Incorrect or misleading information"
+            },
+            "lexical": {
+                "text": "Schrodinger's cat, conceptualized by Erwin Schrodinger, is a theoretical exercise that depicts a cat as being both alive and dead, to explain quantum superposition.",
+                "ground_truth": "A thought experiment illustrating quantum superposition"
+            },
+            "resemantic": {
+                "text": "Schrodinger's cat is an actual experiment conducted by Erwin Schrodinger involving a cat to prove quantum mechanics theories.",
+                "ground_truth": "Incorrect, misrepresents the nature of the thought experiment"
+            },
+            "insert": {
+                "text": "Schrodinger's cat, a famous thought experiment by Erwin Schrodinger, involves a hypothetical cat that is both alive and dead, demonstrating the idea of quantum superposition.",
+                "ground_truth": "A thought experiment illustrating quantum superposition"
+            },
+            "delete": {
+                "text": "Schrodinger's cat illustrates quantum superposition.",
+                "ground_truth": "A thought experiment illustrating quantum superposition"
+            }
+        }
+    }
+]

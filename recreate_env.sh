@@ -27,7 +27,7 @@ source "${DIR}/init_conda.sh"
 set -u  # init conda has some unbounded variables
 
 CONDA_ENV_NAME="revllm"
-CONDA_PACKAGE_FILES="--file conda_packages.txt"
+CONDA_PACKAGE_FILES="--file conda_packages.txt --file conda_packages_dev.txt"
 
 conda_rm_env ${CONDA_ENV_NAME}
 conda_add_channel conda-forge

@@ -1,6 +1,6 @@
-from transformers import AutoModelForCausalLM, AutoTokenizer
-import torch
 import click
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
 @click.group()

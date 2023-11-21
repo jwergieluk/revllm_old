@@ -1,0 +1,103 @@
+[
+    {
+        "original_sentence": "The capital of France, Paris, contains the Eiffel Tower.",
+        "negation": "The capital of France, Paris, does not contain the Eiffel Tower.",
+        "quantifier": "Every landmark in the capital of France, including the Eiffel Tower, is iconic.",
+        "shuffle": "The Eiffel Tower is in Paris, the capital of France.",
+        "lexical": "The chief city of France, Paris, is home to the Eiffel Tower.",
+        "resemantic": "The capital of Spain, Madrid, contains the Royal Palace.",
+        "insert": "The capital of France, Paris, notably contains the Eiffel Tower, a major tourist attraction.",
+        "delete": "Paris contains the Eiffel Tower."
+    },
+    {
+        "original_sentence": "Mount Everest is known to be the highest mountain peak in the world.",
+        "negation": "Mount Everest is not known to be the highest mountain peak in the world.",
+        "quantifier": "Among all the mountain peaks in the world, Mount Everest is known to be the highest.",
+        "shuffle": "The highest mountain peak in the world is known to be Mount Everest.",
+        "lexical": "Mount Everest is acknowledged as the tallest mountain peak globally.",
+        "resemantic": "K2 is known to be the highest mountain peak in the world.",
+        "insert": "Mount Everest, located in the Himalayas, is known to be the highest mountain peak in the world.",
+        "delete": "Mount Everest is the highest peak in the world."
+    },
+    {
+        "original_sentence": "The Great Wall of China is visible from space and spans across several provinces.",
+        "negation": "The Great Wall of China is not visible from space and does not span across several provinces.",
+        "quantifier": "Each segment of the Great Wall of China, visible from space, spans across several provinces.",
+        "shuffle": "Spanning across several provinces, the Great Wall of China is visible from space.",
+        "lexical": "The extensive Great Wall of China, observable from space, stretches across numerous provinces.",
+        "resemantic": "The Grand Canyon is a natural wonder visible from space and spans across a vast area.",
+        "insert": "The Great Wall of China, an ancient fortification, is visible from space and spans across several provinces.",
+        "delete": "The Great Wall of China spans across provinces."
+    },
+    {
+        "original_sentence": "Leonardo da Vinci is renowned for his painting, the Mona Lisa, which hangs in the Louvre.",
+        "negation": "Leonardo da Vinci is not renowned for his painting, the Mona Lisa, which hangs in the Louvre.",
+        "quantifier": "Every work of Leonardo da Vinci, especially the Mona Lisa, is renowned and hangs in prestigious locations like the Louvre.",
+        "shuffle": "The Mona Lisa, which hangs in the Louvre, is a renowned painting by Leonardo da Vinci.",
+        "lexical": "Leonardo da Vinci is famous for his artwork, the Mona Lisa, displayed in the Louvre.",
+        "resemantic": "Michelangelo is renowned for his sculpture, David, which is in Florence.",
+        "insert": "Leonardo da Vinci, a master of the Renaissance, is renowned for his painting, the Mona Lisa, which hangs in the Louvre.",
+        "delete": "Leonardo da Vinci painted the Mona Lisa."
+    },
+    {
+        "original_sentence": "The theory of relativity was proposed by Albert Einstein and has shaped modern physics.",
+        "negation": "The theory of relativity was not proposed by Albert Einstein and has not shaped modern physics.",
+        "quantifier": "Every principle of the theory of relativity, proposed by Albert Einstein, has influenced modern physics.",
+        "shuffle": "Albert Einstein proposed the theory of relativity, which has shaped modern physics.",
+        "lexical": "The concept of relativity, introduced by Albert Einstein, has revolutionized contemporary physics.",
+        "resemantic": "The law of gravity was proposed by Isaac Newton and has shaped classical physics.",
+        "insert": "The groundbreaking theory of relativity, proposed by Albert Einstein, has profoundly shaped modern physics.",
+        "delete": "Albert Einstein proposed the theory of relativity."
+    },
+    {
+        "original_sentence": "The programming language Python is named after Monty Python, not the reptile.",
+        "negation": "The programming language Python is not named after Monty Python, but the reptile.",
+        "quantifier": "Every aspect of the programming language Python, named after Monty Python, reflects its not being named after the reptile.",
+        "shuffle": "Named after Monty Python, not the reptile, Python is a programming language.",
+        "lexical": "The coding language Python derives its name from Monty Python, not from the serpent.",
+        "resemantic": "The programming language Python is inspired by the speed of the python snake, not Monty Python.",
+        "insert": "Python, a popular programming language, is named after Monty Python, not the reptile.",
+        "delete": "Python is named after Monty Python."
+    },
+    {
+        "original_sentence": "Shakespeare's play 'Hamlet' is a classic tragedy centered around the themes of revenge and madness.",
+        "negation": "Shakespeare's play 'Hamlet' is not a classic tragedy and is not centered around the themes of revenge and madness.",
+        "quantifier": "Each element of Shakespeare's play 'Hamlet', a classic tragedy, revolves around the themes of revenge and madness.",
+        "shuffle": "Centered around the themes of revenge and madness, 'Hamlet' is a classic tragedy by Shakespeare.",
+        "lexical": "Shakespeare's masterpiece 'Hamlet' is a renowned drama focusing on the motifs of vengeance and insanity.",
+        "resemantic": "Shakespeare's play 'Romeo and Juliet' is a classic romance centered around the themes of love and fate.",
+        "insert": "'Hamlet', Shakespeare's famous play, is a classic tragedy centered around the themes of revenge and madness.",
+        "delete": "'Hamlet' is centered around revenge and madness."
+    },
+    {
+        "original_sentence": "The human genome contains billions of nucleotides that are sequenced to understand genetic makeup.",
+        "negation": "The human genome does not contain billions of nucleotides that are sequenced to understand genetic makeup.",
+        "quantifier": "Every part of the human genome, containing billions of nucleotides, is sequenced to understand genetic makeup.",
+        "shuffle": "Billions of nucleotides in the human genome are sequenced to understand genetic makeup.",
+        "lexical": "The human genome, comprising billions of nucleotides, is analyzed to comprehend genetic composition.",
+        "resemantic": "The human brain contains billions of neurons that are studied to understand cognitive function.",
+        "insert": "The human genome, a vital key to biology, contains billions of nucleotides that are sequenced to understand genetic makeup.",
+        "delete": "The human genome is sequenced to understand genetic makeup."
+    },
+    {
+        "original_sentence": "The concept of zero as a number was a significant development in mathematics and came from ancient India.",
+        "negation": "The concept of zero as a number was not a significant development in mathematics and did not come from ancient India.",
+        "quantifier": "Every aspect of the concept of zero as a number, a significant development in mathematics, originated in ancient India.",
+        "shuffle": "A significant development in mathematics, the concept of zero as a number, came from ancient India.",
+        "lexical": "The notion of zero as a numeral was a pivotal advancement in mathematics, hailing from ancient India.",
+        "resemantic": "The concept of infinity as a number was a significant development in mathematics and came from ancient Greece.",
+        "insert": "The concept of zero, crucial in mathematics, was a significant development and originated in ancient India.",
+        "delete": "Zero as a number came from ancient India."
+    },
+    {
+        "original_sentence": "Cognitive dissonance is a psychological phenomenon where contradictory beliefs cause mental stress.",
+        "negation": "Cognitive dissonance is not a psychological phenomenon where contradictory beliefs cause mental stress.",
+        "quantifier": "Every case of cognitive dissonance, a psychological phenomenon, involves contradictory beliefs causing mental stress.",
+        "shuffle": "Contradictory beliefs causing mental stress characterize the psychological phenomenon of cognitive dissonance.",
+        "lexical": "Cognitive dissonance, a mental phenomenon, occurs when opposing beliefs lead to psychological strain.",
+        "resemantic": "Cognitive bias is a psychological phenomenon where preconceived notions influence perception.",
+        "insert": "Cognitive dissonance, a common psychological issue, occurs when contradictory beliefs cause mental stress.",
+        "delete": "Cognitive dissonance causes mental stress."
+    }
+]
+]
