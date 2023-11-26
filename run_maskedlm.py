@@ -1,8 +1,6 @@
 import json
 
-from revllm import AnalyzeMaskedLM
-from revllm import PreprocessMaskedLM
-from revllm import VisualizeMaskedLM
+from revllm import AnalyzeMaskedLM, PreprocessMaskedLM, VisualizeMaskedLM
 
 with open('run_maskedlm_inputs.txt', 'r') as infile:
     loaded_data = json.load(infile)

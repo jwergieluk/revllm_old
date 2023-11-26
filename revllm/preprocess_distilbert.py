@@ -3,6 +3,7 @@ from transformers import DistilBertTokenizer
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
+
 class PreprocessSentiment:
     labels = ['negative', 'positive']
 
@@ -19,9 +20,7 @@ class PreprocessSentiment:
         self.attention_mask = None
         self.all_tokens = None
 
-    def preprocess(
-            self, context: str, ground_truth: str
-        ):
+    def preprocess(self, context: str, ground_truth: str):
         self.context = context
         self.ground_truth = ground_truth.lower()
         self.ground_truth_index = self.labels.index(ground_truth.lower())
@@ -29,7 +28,7 @@ class PreprocessSentiment:
         # tokenize inputs (question + context, with special tokens)
         context_ids = self.tokenizer.encode(context, add_special_tokens=False)
         input_ids_raw_list = [self.cls_token_id] + context_ids + [self.sep_token_id]
-        # note: same as simply using the tokeinzer, but we keep it explicit
+        # note: same as simply using the tokenizer, but we keep it explicit
 
         # tokenize baseline (independent of input - necessary for integrated gradients)
         baseline_input_ids_raw_list = (
@@ -46,7 +45,7 @@ class PreprocessSentiment:
         # get all tokens
         token_indices = self.input_ids[0].detach().tolist()
         self.all_tokens = self.tokenizer.convert_ids_to_tokens(token_indices)
-        
+
 
 class PreprocessQAndA:
     def __init__(self, model_path: str):
@@ -64,9 +63,7 @@ class PreprocessQAndA:
         self.ground_truth_start_index = None
         self.ground_truth_end_index = None
 
-    def preprocess(
-        self, question: str, context: str, ground_truth: str
-    ):
+    def preprocess(self, question: str, context: str, ground_truth: str):
         # save as variables to call in analyzer
         self.question = question
         self.context = context
@@ -111,6 +108,7 @@ class PreprocessQAndA:
         self.ground_truth_end_index = token_indices.index(ground_truth_tokens[-1])
         self.ground_truth_start_index = self.ground_truth_end_index - len(ground_truth_tokens) + 1
 
+
 class PreprocessMaskedLM:
     def __init__(self, model_path: str):
         self.tokenizer = DistilBertTokenizer.from_pretrained(model_path)
@@ -127,10 +125,7 @@ class PreprocessMaskedLM:
         self.all_tokens = None
         self.mask_index = None
 
-    def preprocess(
-        self, unmasked_context: str, masked_substring: str
-    ):
-
+    def preprocess(self, unmasked_context: str, masked_substring: str):
         masked_substring = masked_substring.lower()
         unmasked_context = unmasked_context.lower()
 

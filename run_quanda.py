@@ -1,8 +1,6 @@
 import json
 
-from revllm import AnalyzeQAndA
-from revllm import PreprocessQAndA
-from revllm import VisualizeQAndA
+from revllm import AnalyzeQAndA, PreprocessQAndA, VisualizeQAndA
 
 with open('run_qanda_inputs.txt', 'r') as infile:
     loaded_data = json.load(infile)

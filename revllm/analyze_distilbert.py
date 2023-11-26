@@ -26,6 +26,7 @@ def get_top_k_attributed_tokens(
 
     return top_tokens, values, indices
 
+
 class AnalyzeSentiment:
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -126,6 +127,7 @@ class AnalyzeSentiment:
 
         print(f"Full token list: {full_token_list}")
         print(f"Top {k} attributed embeddings for sentiment prediction: {df}")
+
 
 class AnalyzeQAndA:
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -273,6 +275,7 @@ class AnalyzeQAndA:
         print(f"Full token list: {full_token_list}")
         print(f"Top 5 attributed embeddings for start position: {df_start}")
         print(f"Top 5 attributed embeddings for end position: {df_end}")
+
 
 class AnalyzeMaskedLM:
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

@@ -1,15 +1,11 @@
+from .analyze_distilbert import AnalyzeMaskedLM, AnalyzeQAndA, AnalyzeSentiment
 from .preprocess_distilbert import (
-    PreprocessSentiment, 
-    PreprocessQAndA, 
-    PreprocessMaskedLM
-    )
-from .analyze_distilbert import (
-    AnalyzeSentiment, 
-    AnalyzeQAndA, 
-    AnalyzeMaskedLM
-    )
+    PreprocessMaskedLM,
+    PreprocessQAndA,
+    PreprocessSentiment,
+)
 from .visualize_distilbert import (
-    VisualizeSentiment, 
-    VisualizeQAndA, 
-    VisualizeMaskedLM
-    )
+    VisualizeMaskedLM,
+    VisualizeQAndA,
+    VisualizeSentiment,
+)

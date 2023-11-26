@@ -1,8 +1,6 @@
 import json
 
-from revllm import PreprocessSentiment
-from revllm import AnalyzeSentiment
-from revllm import VisualizeSentiment
+from revllm import AnalyzeSentiment, PreprocessSentiment, VisualizeSentiment
 
 with open('run_sentiment_inputs.txt', 'r') as infile:
     loaded_data = json.load(infile)

@@ -1,8 +1,6 @@
 import json
 
-from revllm import PreprocessSentiment
-from revllm import AnalyzeSentiment
-from revllm import VisualizeSentiment
+from revllm import AnalyzeSentiment, PreprocessSentiment, VisualizeSentiment
 
 with open('run_sentiment_inputs.txt', 'r') as infile:
     loaded_data = json.load(infile)
@@ -51,9 +49,7 @@ visualizer.BertViz()
 
 # ----------------------------------------------------------------------------------------------
 
-from revllm import AnalyzeQAndA
-from revllm import PreprocessQAndA
-from revllm import VisualizeQAndA
+from revllm import AnalyzeQAndA, PreprocessQAndA, VisualizeQAndA
 
 with open('run_qanda_inputs.txt', 'r') as infile:
     loaded_data = json.load(infile)
@@ -102,9 +98,7 @@ visualizer.BertViz()
 
 # ----------------------------------------------------------------------------------------------
 
-from revllm import AnalyzeMaskedLM
-from revllm import PreprocessMaskedLM
-from revllm import VisualizeMaskedLM
+from revllm import AnalyzeMaskedLM, PreprocessMaskedLM, VisualizeMaskedLM
 
 with open('run_maskedlm_inputs.txt', 'r') as infile:
     loaded_data = json.load(infile)
